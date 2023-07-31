@@ -16,7 +16,15 @@
           "kind": "class",
           "description": "",
           "name": "SimplePopover",
-          "members": [],
+          "members": [
+            {
+              "kind": "field",
+              "name": "content",
+              "type": {
+                "text": "string | undefined"
+              }
+            }
+          ],
           "superclass": {
             "name": "LitElement",
             "package": "lit"

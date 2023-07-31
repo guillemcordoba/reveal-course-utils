@@ -3,7 +3,11 @@ import { property, customElement } from "lit/decorators.js";
 
 @customElement("simple-popover")
 export class SimplePopover extends LitElement {
+  @property()
+  content: string | undefined;
+
   render() {
+    if (this.content) return html`<span>${this.content}</span>`;
     return html`<slot></slot>`;
   }
 
@@ -11,7 +15,7 @@ export class SimplePopover extends LitElement {
     :host {
       position: absolute;
       background-color: #4d4d4d;
-      padding: 1rem 2rem;
+      padding: 1rem;
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
       border-radius: 10px;
       width: auto;

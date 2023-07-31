@@ -216,9 +216,9 @@ export default () => ({
             popoverContent.push(split2[1]);
           }
 
-          let replaced = `${firstLineBeforeComment}<simple-popover class="fragment fade-in-then-out" style="--r-block-margin: 0">${popoverContent.join(
+          let replaced = `${firstLineBeforeComment}<simple-popover class="fragment fade-in-then-out" style="--r-block-margin: 0" content="${popoverContent.join(
             "\n"
-          )}</simple-popover><span class="fragment fade-in">${commentContent}</span>`;
+          )}"></simple-popover><span class="fragment fade-in">${commentContent}</span>`;
           animateElement.innerHTML =
             animateElement.innerHTML.slice(0, result.index) +
             replaced +

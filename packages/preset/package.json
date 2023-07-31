@@ -1,0 +1,38 @@
+{
+  "name": "reveal-preset",
+  "version": "0.1.0",
+  "description": "",
+  "author": "guillem.cordoba@gmail.com",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "exports": {
+    ".": "./dist/index.js",
+    "./dist/*": "./dist/*",
+    "./styles.css": "./styles.css"
+  },
+  "scripts": {
+    "start": "vite --open",
+    "build": "npm run lint && tsc && npm run analyze -- --exclude dist",
+    "lint": "eslint --ext .ts,.html . --ignore-path .gitignore",
+    "analyze": "cem analyze --litelement"
+  },
+  "dependencies": {
+    "reveal.js": "^4.3.1",
+    "reveal.js-animate-fragments": "^0.0.12",
+    "reveal.js-eliminate-empty-lines": "^0.0.6"
+  },
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.4.17",
+    "concurrently": "^7.0.0",
+    "typescript": "^4.9.0",
+    "vite": "^4.2.0",
+    "vite-plugin-checker": "^0.5.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "customElements": "custom-elements.json"
+}

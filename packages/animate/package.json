@@ -1,0 +1,21 @@
+{
+  "name": "reveal.js-animate-fragments",
+  "description": "Webcomponent reveal.js-animate following open-wc recommendations",
+  "license": "MIT",
+  "author": "reveal.js-animate",
+  "version": "0.0.12",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "scripts": {
+    "start": "web-dev-server"
+  },
+  "dependencies": {
+    "marked": "^4.0.18",
+    "reveal.js": "^4.3.1",
+    "reveal-course-elements": "file:../elements"
+  },
+  "devDependencies": {
+    "@web/dev-server": "^0.1.28"
+  },
+  "customElements": "custom-elements.json"
+}

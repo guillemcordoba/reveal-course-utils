@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="Description" content="Put your description here." />
+    <base href="/" />
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+        background-color: #ededed;
+        --r-main-font-size: 24px;
+      }
+
+      .slides {
+        width: 75% !important;
+      }
+
+      .container {
+        top: 0 !important;
+        display: flex !important;
+        flex-direction: row !important;
+      }
+      .column {
+        flex: 1;
+      }
+
+      section {
+        text-align: left;
+      }
+      .details {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 400px;
+      }
+    </style>
+    <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" />
+    <link
+      rel="stylesheet"
+      href="/node_modules/reveal.js/dist/theme/black.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/node_modules/reveal.js/plugin/highlight/monokai.css"
+    />
+    <title>slides-sl</title>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section
+          animate="by-line with-ancestry separate-comments trailing-comments-in-popover"
+        >
+<pre><code class="rust" data-noescape>
+ // Hi this is a comment over a function
+fn main() { // This is a main 
+  let a = 4;
+}
+</pre></code>
+        </section>
+        <section language="markdown" animate="by-line with-ancestry">
+          ### asdf * Union of several * asdf * jjs ### asdf * Union of several *
+          asdf * jjs
+        </section>
+      </div>
+    </div>
+    <script type="module">
+      import RevealAnimateFragments from "../src/index.js";
+
+      import Reveal from "reveal.js";      
+      import Markdown from "reveal.js/plugin/markdown/markdown.esm.js";
+      import RevealHighlight from "reveal.js/plugin/highlight/highlight.esm.js";
+
+
+      let deck = new Reveal({
+        plugins: [Markdown, RevealAnimateFragments, RevealHighlight],
+      });
+      deck.initialize();
+    </script>
+  </body>
+</html>

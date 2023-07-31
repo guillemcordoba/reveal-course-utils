@@ -153,19 +153,17 @@ export default () => ({
       if (nodeHasAnimateValue(animateElement, "trailing-comments-in-popover")) {
         animateElement.innerHTML = animateElement.innerHTML.replace(
           /^(.*\S.*)\/\/(.*)$/gm,
-          '$1<simple-popover data-popover-fragment-skip class="fragment fade-in-then-out">$2</simple-popover><span class="fragment fade-in">//$2</span>'
+          '$1<simple-popover class="fragment fade-in-then-out">$2</simple-popover><span class="fragment fade-in">//$2</span>'
         );
 
         if (
           nodeHasAnimateValue(animateElement, "separate-comments") &&
           !nodeHasAnimateValue(animateElement, "by-line")
         ) {
-          console.log(animateElement.innerHTML);
           animateElement.innerHTML = animateElement.innerHTML.replace(
-            /^(.*\s.*)\/\/(.*)$/gm,
+            /^(\s*)\/\/(.*)$/gm,
             '$1<span class="fragment fade-in">//$2</span>'
           );
-          console.log(animateElement.innerHTML, "2");
         }
       } else if (
         nodeHasAnimateValue(animateElement, "separate-comments") &&
@@ -196,15 +194,12 @@ export default () => ({
             '<h2 class="fragment fade-in">'
           );
         } else {
-          console.log(animateElement.innerHTML, 4);
           animateElement.innerHTML = animateElement.innerHTML.replace(
             /^(\ *(?:[^{} \n]+) *[^{}\n]*)$/gm,
             '<span class="fragment fade-in">$1</span>'
           );
         }
       }
-
-      console.log(animateElement.innerHTML, 3);
     }
   },
 });

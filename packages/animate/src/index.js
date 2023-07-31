@@ -149,32 +149,6 @@ export default () => ({
           );
           */
       }
-
-      if (nodeHasAnimateValue(animateElement, "trailing-comments-in-popover")) {
-        animateElement.innerHTML = animateElement.innerHTML.replace(
-          /^(.*\S.*)\/\/(.*)$/gm,
-          '$1<simple-popover class="fragment fade-in-then-out">$2</simple-popover><span class="fragment fade-in">//$2</span>'
-        );
-
-        if (
-          nodeHasAnimateValue(animateElement, "separate-comments") &&
-          !nodeHasAnimateValue(animateElement, "by-line")
-        ) {
-          animateElement.innerHTML = animateElement.innerHTML.replace(
-            /^(\s*)\/\/(.*)$/gm,
-            '$1<span class="fragment fade-in">//$2</span>'
-          );
-        }
-      } else if (
-        nodeHasAnimateValue(animateElement, "separate-comments") &&
-        !nodeHasAnimateValue(animateElement, "by-line")
-      ) {
-        animateElement.innerHTML = animateElement.innerHTML.replace(
-          /\/\/(.*)$/gm,
-          '<span class="fragment fade-in">//$1</span>'
-        );
-      }
-
       if (nodeHasAnimateValue(animateElement, "by-line")) {
         if (nodeHasLanguageValue(animateElement, "markdown")) {
           animateElement.innerHTML = animateElement.innerHTML.replace(
@@ -194,11 +168,74 @@ export default () => ({
             '<h2 class="fragment fade-in">'
           );
         } else {
+          if (
+            nodeHasAnimateValue(animateElement, "trailing-comments-in-popover")
+          ) {
+            let searchResults = animateElement.innerHTML.matchAll(
+              /^(\ *[^{}\ \n]+ *[^{}\n]*)$/gm
+            );
+            for (const result of Array.from(searchResults).reverse()) {
+              let s = result[0];
+              if (s.split("//")[0].match(/.*[^\ \t].*/gm)) {
+                let replaced = `<span class="fragment fade-in">${
+                  s.split("//")[0]
+                }</span>//${s.split("//")[1]}`;
+                animateElement.innerHTML =
+                  animateElement.innerHTML.slice(0, result.index) +
+                  replaced +
+                  animateElement.innerHTML.slice(result.index + s.length);
+              }
+            }
+          } else {
+            animateElement.innerHTML = animateElement.innerHTML.replace(
+              /^(\ *[^{} \n]+ *[^{}\n]*)$/gm,
+              '<span class="fragment fade-in">$1</span>'
+            );
+          }
+        }
+      }
+
+      if (nodeHasAnimateValue(animateElement, "trailing-comments-in-popover")) {
+        let searchResults = animateElement.innerHTML.matchAll(
+          /^(.*\S.*)\/\/([^\n]*)(\n[\ \t]*\/\/(.*))*$/gm
+        );
+
+        for (const result of Array.from(searchResults).reverse()) {
+          let s = result[0];
+
+          let split = s.split("\n");
+
+          const popoverContent = [];
+          let firstLine = split[0];
+          const commentContent =
+            `//${firstLine.split("//")[1]}\n` + split.slice(1).join("\n");
+          let firstLineBeforeComment = firstLine.split("//")[0];
+
+          for (const line of split) {
+            let split2 = line.split("//");
+            popoverContent.push(split2[1]);
+          }
+
+          let replaced = `${firstLineBeforeComment}<simple-popover class="fragment fade-in-then-out" style="--r-block-margin: 0">${popoverContent.join(
+            "\n"
+          )}</simple-popover><span class="fragment fade-in">${commentContent}</span>`;
+          animateElement.innerHTML =
+            animateElement.innerHTML.slice(0, result.index) +
+            replaced +
+            animateElement.innerHTML.slice(result.index + s.length);
+        }
+
+        if (nodeHasAnimateValue(animateElement, "separate-comments")) {
           animateElement.innerHTML = animateElement.innerHTML.replace(
-            /^(\ *(?:[^{} \n]+) *[^{}\n]*)$/gm,
-            '<span class="fragment fade-in">$1</span>'
+            /^\/\/(.*)$/gm,
+            '<span class="fragment fade-in">//$1</span>'
           );
         }
+      } else if (nodeHasAnimateValue(animateElement, "separate-comments")) {
+        animateElement.innerHTML = animateElement.innerHTML.replace(
+          /\/\/(.*)$/gm,
+          '<span class="fragment fade-in">//$1</span>'
+        );
       }
     }
   },

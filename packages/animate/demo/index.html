@@ -57,19 +57,46 @@
   <body>
     <div class="reveal">
       <div class="slides">
-        <section
-          animate="by-line with-ancestry separate-comments trailing-comments-in-popover"
-        >
-<pre><code class="rust" data-noescape>
- // Hi this is a comment over a function
+        <section>
+<pre><code class="rust" data-noescape animate="by-line with-ancestry separate-comments trailing-comments-in-popover"
+>
+// Hi this is a comment over a function
 fn main() { // This is a main 
-  let a = 4;
+            // With a double comment
+            // and also a triple
+  println!("ljk/"); // Only one
+  println!("ljk"); // Two
+                   // Comments
+                  
+  println!("ljk"); // Three
+                   // Comments
+                   // Exist
+
+  println!("ljk"); // Four
+                   // Comments
+                   // Exist
+                   // In
+
+  println!("ljk"); // Five
+                   // Comments
+                   // Exist
+                   // In
+                   // This line
+
+                  
+  let a = 4; // But this commeent
+  a // is not actually double 
 }
 </pre></code>
         </section>
+       <!-- prettier-ignore -->
         <section language="markdown" animate="by-line with-ancestry">
-          ### asdf * Union of several * asdf * jjs ### asdf * Union of several *
-          asdf * jjs
+          ### asdf 
+
+          * Union of several 
+            * asdf 
+              * jjs 
+          
         </section>
       </div>
     </div>

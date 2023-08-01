@@ -34,33 +34,8 @@ section {
   text-align: left;
 }
 
-.popover .hljs-meta,
-.popover .hljs-class,
-.popover .hljs-keyword,
-.popover .hljs-symbol,
-.popover .hljs-string,
-.popover .hljs-built_in,
-.popover .hljs-title {
-  color: rgb(221, 221, 221) !important;
-  font-weight: normal;
-}
-.popover ul {
-  padding: 0 !important;
-  display: grid !important;
-}
-
 .reveal pre code {
   max-height: 800px !important;
-}
-
-simple-popover .hljs-meta,
-simple-popover .hljs-class,
-simple-popover .hljs-keyword,
-simple-popover .hljs-symbol,
-simple-popover .hljs-string,
-simple-popover .hljs-title {
-  color: rgb(221, 221, 221) !important;
-  font-weight: normal;
 }
 
 .hljs-keyword {

@@ -10,12 +10,12 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/elements/simple-popover.ts",
+      "path": "src/elements/markdown-popover.ts",
       "declarations": [
         {
           "kind": "class",
           "description": "",
-          "name": "SimplePopover",
+          "name": "MarkdownPopover",
           "members": [
             {
               "kind": "field",
@@ -35,10 +35,10 @@
       "exports": [
         {
           "kind": "js",
-          "name": "SimplePopover",
+          "name": "MarkdownPopover",
           "declaration": {
-            "name": "SimplePopover",
-            "module": "src/elements/simple-popover.ts"
+            "name": "MarkdownPopover",
+            "module": "src/elements/markdown-popover.ts"
           }
         }
       ]

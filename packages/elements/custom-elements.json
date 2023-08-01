@@ -10,21 +10,13 @@
     },
     {
       "kind": "javascript-module",
-      "path": "src/elements/markdown-popover.ts",
+      "path": "src/elements/simple-popover.ts",
       "declarations": [
         {
           "kind": "class",
           "description": "",
-          "name": "MarkdownPopover",
-          "members": [
-            {
-              "kind": "field",
-              "name": "content",
-              "type": {
-                "text": "string | undefined"
-              }
-            }
-          ],
+          "name": "SimplePopover",
+          "members": [],
           "superclass": {
             "name": "LitElement",
             "package": "lit"
@@ -35,10 +27,10 @@
       "exports": [
         {
           "kind": "js",
-          "name": "MarkdownPopover",
+          "name": "SimplePopover",
           "declaration": {
-            "name": "MarkdownPopover",
-            "module": "src/elements/markdown-popover.ts"
+            "name": "SimplePopover",
+            "module": "src/elements/simple-popover.ts"
           }
         }
       ]

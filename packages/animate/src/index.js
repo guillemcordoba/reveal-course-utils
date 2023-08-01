@@ -1,5 +1,5 @@
 import { marked } from "marked";
-import "reveal-course-elements/dist/elements/markdown-popover.js";
+import "reveal-course-elements/dist/elements/simple-popover.js";
 
 function nodeHasLanguageValue(node, value) {
   return (
@@ -216,9 +216,27 @@ export default () => ({
             popoverContent.push(split2[1]);
           }
 
-          let replaced = `${firstLineBeforeComment}<markdown-popover class="fragment fade-in-then-out" style="--r-block-margin: 0" content="${popoverContent.join(
-            "\n"
-          )}"></markdown-popover><span class="fragment fade-in">${commentContent}</span>`;
+          let markdown = marked.parse(popoverContent.join("\n"));
+
+          if (nodeHasAnimateValue(animateElement, "by-line")) {
+            markdown = markdown.replace(
+              /<li>/gm,
+              '<li class="fragment fade-in-then-semi-out">'
+            );
+            markdown = markdown.replace(
+              /<h4([^>]*)*>/gm,
+              '<h4 $1 class="fragment fade-in">'
+            );
+            markdown = markdown.replace(
+              /<h3([^>]*)*>/gm,
+              '<h3 $1 class="fragment fade-in">'
+            );
+            markdown = markdown.replace(
+              /<h2>/gm,
+              '<h2 class="fragment fade-in">'
+            );
+          }
+          let replaced = `${firstLineBeforeComment}<simple-popover class="fragment fade-in-then-out" style="--r-block-margin: 0">${markdown}</simple-popover><span class="fragment fade-in">${commentContent}</span>`;
           animateElement.innerHTML =
             animateElement.innerHTML.slice(0, result.index) +
             replaced +

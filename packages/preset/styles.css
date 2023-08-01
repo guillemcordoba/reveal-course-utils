@@ -37,6 +37,28 @@ section {
 .reveal pre code {
   max-height: 800px !important;
 }
+simple-popover p {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+simple-popover .hljs-meta,
+simple-popover .hljs-class,
+simple-popover .hljs-keyword,
+simple-popover .hljs-built_in,
+simple-popover .hljs-symbol,
+simple-popover .hljs-string,
+simple-popover .hljs-title {
+  color: white !important;
+  font-weight: normal;
+}
+
+simple-popover ul {
+  padding: 0 !important;
+  padding-left: 24px !important;
+  display: grid !important;
+  margin: 0 !important;
+}
 
 .hljs-keyword {
   color: #817eed !important;
@@ -44,10 +66,6 @@ section {
 
 .hljs-literal {
   color: #ff90b8 !important;
-}
-
-.reveal pre code {
-  max-height: 800px !important;
 }
 
 .dna {

@@ -41,6 +41,29 @@
         right: 0;
         width: 400px;
       }
+      simple-popover p {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      simple-popover .hljs-meta,
+      simple-popover .hljs-class,
+      simple-popover .hljs-keyword,
+      simple-popover .hljs-built_in,
+      simple-popover .hljs-symbol,
+      simple-popover .hljs-string,
+      simple-popover .hljs-title {
+        color: white !important;
+        font-weight: normal;
+      }
+
+
+      simple-popover ul {
+        padding: 0 !important;
+        padding-left: 24px !important;
+        display: grid !important;
+        margin: 0 !important;
+      }
     </style>
     <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" />
     <link
@@ -60,33 +83,22 @@
         <section>
 <pre><code class="rust" data-noescape animate="by-line with-ancestry separate-comments trailing-comments-in-popover"
 >
-// Hi this is a comment over a function
-fn main() { // This is a main type
-            // With a double comment
-            // and also a triple
-  println!("ljk/"); // - Only one
-  println!("ljk"); // - Two
-                   //   - Comments
-                  
-  println!("ljk"); // Three
-                   // **Comments**
-                   // Exist
+let user_age: f32 = 1.0; // Declare with let, in snake case 
 
-  println!("ljk"); // Four
-                   // Comments
-                   // Exist
-                   // In
+let user_age: f32 = 2.0; // Redeclaration
 
-  println!("ljk"); // Five
-                   // Comments
-                   // Exist
-                   // In
-                   // This line
+let user_age = 3.0; // Type is inferred if ommitted based on the literal
+                    // - Default types: 
+                    //   - Positive integers: u32
+                    //   - Negative integers: i32
+                    //   - Floats: f64
 
-                  
-  let a = 4; // But this commeent
-  a // is not actually double 
-}
+user_age = 4.0; // Error, immutable by default
+
+let mut mutable_age = 5; // Set as mutable
+mutable_age = 6; // Works
+
+<span class="fragment strike">mutable_age = “seven”;</span> //Strict typing: cannot assign a value of another typing
 </pre></code>
         </section>
        <!-- prettier-ignore -->

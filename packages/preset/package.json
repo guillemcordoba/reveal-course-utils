@@ -1,5 +1,5 @@
 {
-  "name": "reveal-preset",
+  "name": "reveal-course-preset",
   "version": "0.1.0",
   "description": "",
   "author": "guillem.cordoba@gmail.com",
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "reveal.js": "^4.3.1",
-    "reveal.js-animate-fragments": "^0.0.12",
+    "reveal.js-animate-fragments": "file:../animate",
     "reveal.js-eliminate-empty-lines": "^0.0.6"
   },
   "devDependencies": {

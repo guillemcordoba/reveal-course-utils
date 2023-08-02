@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="Description" content="Put your description here." />
+    <base href="/" />
+
+    <title>Lesson 1</title>
+  </head>
+
+  <script type="module">
+    import 'reveal.js/dist/reveal.css'
+    import 'reveal.js/dist/theme/black.css'
+    import 'reveal.js/plugin/highlight/monokai.css'
+    import '../styles.css'
+  </script>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h1>Rust Language Fundamentals</h1>
+        </section>
+
+        <section>
+          <h2>Why Rust?</h2>
+          <div class="container">
+            <div class="fragment column">
+              <!-- prettier-ignore -->
+              <fragment language="markdown" animate="by-line with-ancestry">
+                ### A low level language
+
+                - Compiled, not interpreted
+                - Enforces very strict rules
+                - Goal: all errors at compile time (no segmentation faults)
+                - Semi-optimal garbage collection            
+              </fragment>
+            </div>
+
+            <div class="column">
+              <!-- prettier-ignore -->
+              <fragment language="markdown" animate="by-line with-ancestry">
+                ### Modern & high level features
+
+                - Great compiler & error messages
+                - Iterators              
+                - Functional programming features
+                - Function pointers & closures
+                - Higher order functions
+                - Package manager
+                - Testing framework
+              </fragment>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <!-- prettier-ignore -->
+          <fragment language="markdown" animate="by-line with-ancestry">
+            ### Variable Consumption
+
+            - One of Rust's most distinctive features
+            - Allows the compiler to prevent many kinds of error
+            - A constraint on how you write code
+            - When you reference certain variables, they become "consumed"
+            - A consumed variable cannot be referenced again later
+          </fragment>
+        </section>
+
+
+        <section>
+          <h3>Declaration of Variables</h3>
+
+    <fragment animate="by-line with-ancestry balanced separate-comments">
+
+          <pre><code class="rust" data-noescape>
+let user_age: f32 = 1.0; // Declare with "let", in snake case
+
+let user_age: f32 = 2.0; // Redeclaration
+
+let user_age = 3.0; // Type is inferred if ommitted based on the literal
+                    // - Default types: 
+                    //   - Positive integers: u32
+                    //   - Negative integers: i32
+                    //   - Floats: f64
+
+user_age = 4.0; // Error, immutable by default
+
+let mut mutable_age = 5; // Set as mutable
+mutable_age = 6; // Works
+
+<span class="fragment strike">mutable_age = “seven”;</span> //Strict typing: cannot assign a value of another typing
+</pre></code>
+</fragment>
+        </section>
+      </div>
+    </div>
+
+    <script type="module">
+      import Reveal from "reveal.js";
+      import Markdown from "reveal.js/plugin/markdown/markdown.esm.js";
+      import RevealHighlight from "reveal.js/plugin/highlight/highlight.esm.js";
+      import RevealNotes from "reveal.js/plugin/notes/notes.esm.js";
+      import RevealAnimateFragments from "reveal.js-animate-fragments";
+      import RevealEliminateEmptyLines from "reveal.js-eliminate-empty-lines";
+
+      let deck = new Reveal({
+        transition: "none",
+        plugins: [
+          Markdown,
+          RevealHighlight,
+          RevealNotes,
+          RevealAnimateFragments,
+          RevealEliminateEmptyLines 
+        ],
+      });
+      deck.initialize();
+    </script>
+  </body>
+</html>

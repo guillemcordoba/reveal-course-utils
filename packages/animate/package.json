@@ -1,0 +1,22 @@
+{
+  "name": "reveal.js-animate-fragments",
+  "description": "Webcomponent reveal.js-animate following open-wc recommendations",
+  "license": "MIT",
+  "author": "reveal.js-animate",
+  "version": "0.0.12",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "scripts": {
+    "start": "vite --open"
+  },
+  "dependencies": {
+    "marked": "^4.0.18",
+    "reveal.js": "=4.3.0",
+    "reveal-course-elements": "file:../elements"
+  },
+  "devDependencies": {
+    "vite": "^4.2.0",
+    "vite-plugin-checker": "^0.5.5"
+  },
+  "customElements": "custom-elements.json"
+}

@@ -1,0 +1,100 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #ededed;
+  --r-main-font-size: 24px;
+  --r-heading-margin: 20px 0 12px 0;
+}
+
+code {
+  font-size: 1.25em !important;
+  line-height: 1em;
+}
+
+section {
+  top: 10px !important;
+}
+
+.hljs-keyword {
+  color: hsl(242deg 75% 71%) !important;
+}
+
+.container {
+  top: 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.column {
+  flex: 1;
+}
+
+section {
+  text-align: left;
+}
+
+.reveal pre code {
+  max-height: 800px !important;
+}
+simple-popover p {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+simple-popover .hljs-meta,
+simple-popover .hljs-class,
+simple-popover .hljs-keyword,
+simple-popover .hljs-built_in,
+simple-popover .hljs-symbol,
+simple-popover .hljs-string,
+simple-popover .hljs-title {
+  color: white !important;
+  font-weight: normal;
+}
+
+simple-popover ul {
+  padding: 0 !important;
+  padding-left: 24px !important;
+  display: grid !important;
+  margin: 0 !important;
+}
+
+.hljs-keyword {
+  color: #817eed !important;
+}
+
+.hljs-literal {
+  color: #ff90b8 !important;
+}
+
+.dna {
+  background-color: green;
+}
+.zome {
+  background-color: blue;
+}
+.coordinator-zomes {
+  background-color: lightblue;
+}
+
+.dna,
+.cell,
+.zome,
+.coordinator-zomes,
+.source-chain,
+.happ-bundle,
+.box,
+.dna-bundle,
+.dht-shard,
+.conductor,
+.happ {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-width: 3px;
+  border-color: rgb(209, 209, 209);
+  border-style: solid;
+}

@@ -20,7 +20,7 @@
     "build": "npm run lint && tsc && npm run analyze -- --exclude dist",
     "lint": "eslint --ext .ts",
     "analyze": "cem analyze --litelement",
-    "publish-to-branch": "npm run build && gh-pages --remove node_modules -a dist -d ./ -b reveal-course-elements"
+    "publish-to-branch": "npm run build && gh-pages --remove node_modules -d ./ -b reveal-course-elements"
   },
   "dependencies": {
     "lit": "^2.6.1"

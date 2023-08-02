@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/index.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "plugins",
+          "type": {
+            "text": "array"
+          },
+          "default": "[\n  Markdown,\n  RevealNotes,\n  RevealAnimateFragments,\n  RevealHighlight,\n]"
+        },
+        {
+          "kind": "variable",
+          "name": "config",
+          "type": {
+            "text": "object"
+          },
+          "default": "{\n  plugins,\n\n  center: false,\n  transition: \"none\",\n  highlight: {\n    beforeHighlight: (hljs) => {\n      hljs.configure({\n        ignoreUnescapedHTML: true,\n      });\n    },\n  },\n}"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "plugins",
+          "declaration": {
+            "name": "plugins",
+            "module": "src/index.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "config",
+          "declaration": {
+            "name": "config",
+            "module": "src/index.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

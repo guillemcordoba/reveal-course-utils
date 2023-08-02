@@ -179,7 +179,7 @@ export default () => ({
               if (s.split("//")[0].match(/.*[^\ \t].*/gm)) {
                 let replaced = `<span class="fragment fade-in">${
                   s.split("//")[0]
-                }</span>//${s.split("//")[1]}`;
+                }</span>${s.split("//")[1] ? `//${s.split("//")[1]}` : ``}`;
                 animateElement.innerHTML =
                   animateElement.innerHTML.slice(0, result.index) +
                   replaced +
@@ -196,12 +196,12 @@ export default () => ({
       }
 
       if (nodeHasAnimateValue(animateElement, "trailing-comments-in-popover")) {
-        console.log("hi");
         let searchResults = animateElement.innerHTML.matchAll(
           /^(.*\S.*)\/\/([^\n]*)(\n[\ \t]*\/\/(.*))*$/gm
         );
 
         for (const result of Array.from(searchResults).reverse()) {
+          console.log(result);
           let s = result[0];
 
           let split = s.split("\n");
@@ -256,7 +256,6 @@ export default () => ({
           '<span class="fragment fade-in">//$1</span>'
         );
       }
-      console.log(animateElement.innerHTML);
     }
   },
 });

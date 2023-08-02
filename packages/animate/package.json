@@ -3,7 +3,7 @@
   "description": "Webcomponent reveal.js-animate following open-wc recommendations",
   "license": "MIT",
   "author": "reveal.js-animate",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "main": "src/index.js",
   "module": "src/index.js",
   "scripts": {

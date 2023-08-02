@@ -7,15 +7,16 @@
   "main": "src/index.js",
   "module": "src/index.js",
   "scripts": {
-    "start": "web-dev-server"
+    "start": "vite --open"
   },
   "dependencies": {
     "marked": "^4.0.18",
-    "reveal.js": "^4.3.1",
+    "reveal.js": "=4.3.0",
     "reveal-course-elements": "file:../elements"
   },
   "devDependencies": {
-    "@web/dev-server": "^0.1.28"
+    "vite": "^4.2.0",
+    "vite-plugin-checker": "^0.5.5"
   },
   "customElements": "custom-elements.json"
 }

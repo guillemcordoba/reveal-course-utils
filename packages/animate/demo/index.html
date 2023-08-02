@@ -57,7 +57,6 @@
         font-weight: normal;
       }
 
-
       simple-popover ul {
         padding: 0 !important;
         padding-left: 24px !important;
@@ -65,24 +64,22 @@
         margin: 0 !important;
       }
     </style>
-    <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" />
-    <link
-      rel="stylesheet"
-      href="/node_modules/reveal.js/dist/theme/black.css"
-    />
-    <link
-      rel="stylesheet"
-      href="/node_modules/reveal.js/plugin/highlight/monokai.css"
-    />
     <title>slides-sl</title>
+
+    <script type="module">
+      import "reveal.js/dist/reveal.css";
+      import "reveal.js/dist/theme/black.css";
+      import "reveal.js/plugin/highlight/monokai.css";
+    </script>
   </head>
 
   <body>
     <div class="reveal">
       <div class="slides">
         <section>
-<pre><code class="rust" data-noescape animate="by-line with-ancestry separate-comments trailing-comments-in-popover"
+          <pre><code class="rust" data-noescape animate="by-line with-ancestry separate-comments trailing-comments-in-popover"
 >
+// hii
 let user_age: f32 = 1.0; // Declare with let, in snake case 
 
 let user_age: f32 = 2.0; // Redeclaration
@@ -99,9 +96,9 @@ let mut mutable_age = 5; // Set as mutable
 mutable_age = 6; // Works
 
 <span class="fragment strike">mutable_age = “seven”;</span> //Strict typing: cannot assign a value of another typing
-</pre></code>
+</code></pre>
         </section>
-       <!-- prettier-ignore -->
+        <!-- prettier-ignore -->
         <section language="markdown" animate="by-line with-ancestry">
           ### asdf 
 
@@ -115,13 +112,23 @@ mutable_age = 6; // Works
     <script type="module">
       import RevealAnimateFragments from "../src/index.js";
 
-      import Reveal from "reveal.js";      
+      import Reveal from "reveal.js";
       import Markdown from "reveal.js/plugin/markdown/markdown.esm.js";
       import RevealHighlight from "reveal.js/plugin/highlight/highlight.esm.js";
 
-
       let deck = new Reveal({
         plugins: [Markdown, RevealAnimateFragments, RevealHighlight],
+
+        center: false,
+        transition: "none",
+        highlight: {
+          beforeHighlight: (hljs) => {
+            hljs.configure({
+              ignoreUnescapedHTML: true,
+              noHighlightRe: /nohi/gm,
+            });
+          },
+        },
       });
       deck.initialize();
     </script>

@@ -7,4 +7,5 @@ export default defineConfig({
   },
 
   root: "./demo",
+  plugins: [], // e.g. use TypeScript check
 });

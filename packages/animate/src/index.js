@@ -196,6 +196,7 @@ export default () => ({
       }
 
       if (nodeHasAnimateValue(animateElement, "trailing-comments-in-popover")) {
+        console.log("hi");
         let searchResults = animateElement.innerHTML.matchAll(
           /^(.*\S.*)\/\/([^\n]*)(\n[\ \t]*\/\/(.*))*$/gm
         );
@@ -236,7 +237,7 @@ export default () => ({
               '<h2 class="fragment fade-in">'
             );
           }
-          let replaced = `${firstLineBeforeComment}<simple-popover class="fragment fade-in-then-out" style="--r-block-margin: 0">${markdown}</simple-popover><span class="fragment fade-in">${commentContent}</span>`;
+          let replaced = `${firstLineBeforeComment}<simple-popover class="fragment fade-in-then-out nohi" style="--r-block-margin: 0">${markdown}</simple-popover><span class="fragment fade-in">${commentContent}</span>`;
           animateElement.innerHTML =
             animateElement.innerHTML.slice(0, result.index) +
             replaced +
@@ -255,6 +256,7 @@ export default () => ({
           '<span class="fragment fade-in">//$1</span>'
         );
       }
+      console.log(animateElement.innerHTML);
     }
   },
 });

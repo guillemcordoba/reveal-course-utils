@@ -121,6 +121,13 @@ export default () => ({
     const animateElements = document.querySelectorAll("[animate]");
 
     for (const animateElement of animateElements) {
+      if (nodeHasAnimateValue(animateElement, "strike-on-error-in-comment")) {
+        animateElement.innerHTML = animateElement.innerHTML.replace(
+          /^(.*?)(\s*?)\/\/ Error/gm,
+          '<span class="fragment strike">$1</span>$2// Error'
+        );
+      }
+
       if (nodeHasAnimateValue(animateElement, "balanced")) {
         animateElement.innerHTML = animateElement.innerHTML.replace(
           /^(.*){(.*)$/gm,
@@ -196,13 +203,9 @@ export default () => ({
       }
 
       if (nodeHasAnimateValue(animateElement, "trailing-comments-in-popover")) {
+        let html = animateElement.innerHTML.replace(/\&amp;/gm, "&");
         if (nodeHasAnimateValue(animateElement, "separate-comments")) {
-          const lines = animateElement.innerHTML
-            // .replace(
-            //   /<simple-popover\ [^>]*>[\w\W\n]*?<\/simple-popover>/gm,
-            //   ""
-            // )
-            .split("\n");
+          const lines = html.split("\n");
           for (let i = 0; i < lines.length; i++) {
             if (!!lines[i].match(/^(\s*)\/\/(.*)$/gm)) {
               if (i === 0) {
@@ -210,7 +213,6 @@ export default () => ({
               } else {
                 const line = removeFragmentSpan(lines[i]);
                 const previousLine = removeFragmentSpan(lines[i - 1]);
-                console.log(line, "h", lines[i - 1]);
                 const lineCommentIndex = line.split("//")[0].length;
 
                 if (
@@ -224,17 +226,17 @@ export default () => ({
               }
             }
           }
-          animateElement.innerHTML = lines.join("\n");
+          html = lines.join("\n");
         }
 
-        let searchResults = animateElement.innerHTML.matchAll(
+        let searchResults = html.matchAll(
           /^(.*\S.*)\/\/([^\n]*)(\n[\ \t]*\/\/(.*))*$/gm
         );
 
         for (const result of Array.from(searchResults).reverse()) {
           let s = result[0];
 
-          // If this line contains just a <span class="fragment fade-in"> // Some comment</span>, this is a false alarm, skip
+          // If this line contains just a `<span class="fragment fade-in"> // Some comment</span>`, this is a false alarm, skip
           if (!!s.match(/^<[^>]*?>\s*?\/\/[^<]*?<\/[^>]*?>$/gm)) {
             continue;
           }
@@ -244,14 +246,8 @@ export default () => ({
           const popoverContent = [];
           let firstLine = split[0];
 
-          let commentFirstLine = firstLine;
-
-          if (commentFirstLine.startsWith('<span class="fragment fade-in">')) {
-            commentFirstLine = commentFirstLine.split(
-              '<span class="fragment fade-in">'
-            )[1];
-            commentFirstLine = commentFirstLine.split("</span>")[0];
-          }
+          let commentFirstLine = removeFragmentSpan(firstLine);
+          console.log(firstLine, commentFirstLine);
 
           let commentIndex = commentFirstLine.split("//")[0].length;
 
@@ -274,7 +270,11 @@ export default () => ({
 
           for (const line of lines) {
             let split2 = line.split("//");
-            popoverContent.push(split2[1]);
+            let content = split2[1];
+            if (content.match(/^\s*[\w]/gm)) {
+              content = content.trim();
+            }
+            popoverContent.push(content);
           }
 
           let markdown = marked.parse(popoverContent.join("\n").trim());
@@ -298,11 +298,12 @@ export default () => ({
             );
           }
           let replaced = `${firstLineBeforeComment}<simple-popover class="fragment fade-in-then-out" style="--r-block-margin: 0">${markdown}</simple-popover><span class="fragment fade-in">${commentContent}</span>`;
-          animateElement.innerHTML =
-            animateElement.innerHTML.slice(0, result.index) +
+          html =
+            html.slice(0, result.index) +
             replaced +
-            animateElement.innerHTML.slice(result.index + lastIndex - 1);
+            html.slice(result.index + lastIndex - 1);
         }
+        animateElement.innerHTML = html;
       } else if (nodeHasAnimateValue(animateElement, "separate-comments")) {
         animateElement.innerHTML = animateElement.innerHTML.replace(
           /\/\/(.*)$/gm,
@@ -316,7 +317,11 @@ export default () => ({
 function removeFragmentSpan(html) {
   if (html.startsWith('<span class="fragment fade-in">')) {
     html = html.split('<span class="fragment fade-in">')[1];
-    html = html.split("</span>")[0];
+    html = html.replace(/<\/span>/gm, "");
+  }
+  if (html.startsWith('<span class="fragment strike">')) {
+    html = html.split('<span class="fragment strike">')[1];
+    html = html.replace(/<\/span>/gm, "");
   }
   return html;
 }

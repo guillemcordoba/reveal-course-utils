@@ -77,8 +77,14 @@
     <div class="reveal">
       <div class="slides">
         <section>
-          <pre><code class="rust" data-noescape animate="by-line with-ancestry separate-comments trailing-comments-in-popover"
+          <pre><code class="rust" data-trim data-noescape animate="by-line with-ancestry separate-comments trailing-comments-in-popover strike-on-error-in-comment"
 >
+asdfasdf;         // Error, what?
+                  // asdf
+let greeting: &str = "hello world!"; // Type annotation for string literal is always "&str"
+                                     // since you can only ever have a reference to string literal
+
+// This is a two
 let if_result: u32 = if n &lt; 2 { // Can have a result value
   // This is a two
   2

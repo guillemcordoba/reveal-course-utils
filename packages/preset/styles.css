@@ -36,9 +36,14 @@ section {
   text-align: left;
 }
 
+.reveal pre {
+  width: auto !important;
+}
+
 .reveal pre code {
   max-height: 800px !important;
 }
+
 simple-popover p {
   padding: 0 !important;
   margin: 0 !important;
@@ -49,6 +54,7 @@ simple-popover .hljs-class,
 simple-popover .hljs-keyword,
 simple-popover .hljs-built_in,
 simple-popover .hljs-symbol,
+simple-popover .hljs-literal,
 simple-popover .hljs-string,
 simple-popover .hljs-title {
   color: white !important;

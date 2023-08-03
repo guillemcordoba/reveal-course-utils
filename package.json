@@ -1,7 +1,9 @@
 {
   "name": "reveal-course-utils",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "engines": {
     "npm": ">=7.0.0"
   },
@@ -9,5 +11,8 @@
     "@open-wc/eslint-config": "^9.2.2",
     "eslint-config-prettier": "^8.6.0",
     "prettier": "^2.8.4"
+  },
+  "dependencies": {
+    "@svgdotjs/svg.js": "^3.2.0"
   }
 }

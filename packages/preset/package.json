@@ -20,7 +20,8 @@
   },
   "dependencies": {
     "reveal.js": "=4.3.1",
-    "reveal.js-animate-fragments": "file:../animate"
+    "reveal.js-animate-svg": "file:../animate-svg",
+    "reveal.js-animate-fragments": "file:../animate-fragments"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.4.17",

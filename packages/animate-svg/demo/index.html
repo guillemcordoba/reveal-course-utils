@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="Description" content="Put your description here." />
+    <base href="/" />
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+        background-color: #ededed;
+        --r-main-font-size: 24px;
+      }
+
+      .slides {
+        width: 75% !important;
+      }
+
+      .container {
+        top: 0 !important;
+        display: flex !important;
+        flex-direction: row !important;
+      }
+      .column {
+        flex: 1;
+      }
+
+      section {
+        text-align: left;
+      }
+      .details {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 400px;
+      }
+      simple-popover p {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      simple-popover .hljs-meta,
+      simple-popover .hljs-class,
+      simple-popover .hljs-keyword,
+      simple-popover .hljs-built_in,
+      simple-popover .hljs-symbol,
+      simple-popover .hljs-string,
+      simple-popover .hljs-title {
+        color: white !important;
+        font-weight: normal;
+      }
+
+      simple-popover ul {
+        padding: 0 !important;
+        padding-left: 24px !important;
+        display: grid !important;
+        margin: 0 !important;
+      }
+    </style>
+    <title>slides-sl</title>
+
+    <script type="module">
+      import "reveal.js/dist/reveal.css";
+      import "reveal.js/dist/theme/black.css";
+      import "reveal.js/plugin/highlight/monokai.css";
+    </script>
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="457.01"
+            width="490.82"
+            id="i"
+            version="1.0"
+          >
+            <g id="heart">
+              <path
+                d="M138.636 12.921c-66.24 0-120 53.76-120 120 0 134.756 135.933 170.088 228.562 303.308 87.574-132.403 228.563-172.854 228.563-303.308 0-66.24-53.76-120-120-120-48.048 0-89.402 28.37-108.563 69.188-19.16-40.817-60.514-69.188-108.562-69.188z"
+                fill="#e60000"
+                stroke="#000"
+                stroke-width="18.7"
+              />
+              <path
+                d="M140.22 31.37c-57.96 0-105 47.04-105 105 0 117.91 118.919 148.838 199.969 265.406 6.56-9.918-139.969-145.527-139.969-245.407 0-57.96 47.04-105 105-105 .505 0 .997.056 1.5.063-17.276-12.584-38.494-20.063-61.5-20.063z"
+                fill="#e6e6e6"
+                fill-opacity=".646"
+              />
+            </g>
+          </svg>
+          <span class="fragment">asdf</span>
+          <svg-fragment>
+            SVG("#i").find("#heart *").animate().fill("#fff")
+          </svg-fragment>
+          <svg-fragment>
+            SVG("#i").find("#heart *").animate().fill("black")
+          </svg-fragment>
+        </section>
+      </div>
+    </div>
+    <script type="module">
+      import RevealAnimateSvg from "../src/index.js";
+
+      import Reveal from "reveal.js";
+
+      let deck = new Reveal({
+        plugins: [RevealAnimateSvg],
+
+        center: false,
+        transition: "none",
+      });
+      deck.initialize();
+    </script>
+  </body>
+</html>

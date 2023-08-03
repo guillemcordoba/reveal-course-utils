@@ -77,8 +77,38 @@
     <div class="reveal">
       <div class="slides">
         <section>
-          <pre><code class="rust" data-trim data-noescape animate="by-line with-ancestry separate-comments trailing-comments-in-popover strike-on-error-in-comment"
+          <!-- todo: consolidate this example and the parameter type inference into one visual -->
+          <pre><code class="rust" data-trim data-noescape animate="by-line balanced with-ancestry separate-comments trailing-comments-in-popover strike-on-error-in-comment"
 >
+// Here's a simple function (not a closure), which we will use 
+// as the closure's containing scope environment
+fn sample() {
+  let heavy_weight = 100;
+
+  let is_heavy_closure = |weight: u32| { // A closure resembles a function, 
+                                         // but with "||" rather than "()" around the parameters
+    weight > heavy_weight  // Closures capture variables from their containing scope
+  };
+  
+  println!("{:?}", is_heavy_closure(99)); // Closures are invoked like functions
+                                          // prints false
+
+  println!("{}", is_heavy_closure(101)); // prints true
+  
+  let is_heavy_closure_with_type_inference = |weight| { // Parameter types can be inferred
+    weight > heavy_weight
+  };
+  
+  let is_heavy_closure_without_braces = |weight| weight > heavy_weight; // If the return expression is a single line,
+                                                                        // we don't need the curly braces
+
+  return is_heavy_closure; // Error: can't be sent to another context
+                           // ahaa
+}
+
+println!("{}", is_heavy_closure(99)); // Closures are invoked like functions
+                                      // prints false
+
 asdfasdf;         // Error, what?
                   // asdf
 let greeting: &str = "hello world!"; // Type annotation for string literal is always "&str"
@@ -110,7 +140,6 @@ user_age = 4.0; // Error, immutable by default
 let mut mutable_age = 5; // Set as mutable
 mutable_age = 6; // Works
 
-<span class="fragment strike">mutable_age = “seven”;</span> //Strict typing: cannot assign a value of another typing
 </code></pre>
         </section>
         <!-- prettier-ignore -->

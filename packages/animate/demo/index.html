@@ -84,7 +84,7 @@
 // as the closure's containing scope environment
 fn sample() {
   let heavy_weight = 100;
-
+  
   let is_heavy_closure = |weight: u32| { // A closure resembles a function, 
                                          // but with "||" rather than "()" around the parameters
     weight > heavy_weight  // Closures capture variables from their containing scope

@@ -19,8 +19,9 @@
     "analyze": "cem analyze --litelement"
   },
   "dependencies": {
+    "@svgdotjs/svg.js": "^3.2.0",
     "reveal.js": "=4.3.1",
-    "reveal.js-animate-svg": "file:../animate-svg",
+    "reveal.js-fragment-script": "file:../fragment-script",
     "reveal.js-animate-fragments": "file:../animate-fragments"
   },
   "devDependencies": {

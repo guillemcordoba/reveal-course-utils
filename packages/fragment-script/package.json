@@ -1,5 +1,5 @@
 {
-  "name": "reveal.js-animate-svg",
+  "name": "reveal.js-fragment-script",
   "description": "Webcomponent reveal.js-animate following open-wc recommendations",
   "license": "MIT",
   "version": "0.0.1",
@@ -9,7 +9,6 @@
     "start": "vite --open"
   },
   "dependencies": {
-    "@svgdotjs/svg.js": "^3.2.0",
     "reveal.js": "=4.3.0"
   },
   "devDependencies": {

@@ -1,12 +1,7 @@
-import { SVG } from "@svgdotjs/svg.js";
-
-window.SVG = SVG;
-
 export default () => ({
-  id: "animate-svg",
+  id: "script-fragment",
   init: (deck) => {
-    const animateElements = document.querySelectorAll("svg-fragment");
-    console.log(animateElements);
+    const animateElements = document.querySelectorAll("script[data-fragment]");
 
     for (const element of animateElements) {
       const js = element.innerHTML;

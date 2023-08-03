@@ -1,15 +1,18 @@
 import Markdown from "reveal.js/plugin/markdown/markdown.esm.js";
-import RevealAnimate from "reveal.js-animate";
 import RevealHighlight from "reveal.js/plugin/highlight/highlight.esm.js";
 import RevealNotes from "reveal.js/plugin/notes/notes.esm.js";
 import RevealAnimateFragments from "reveal.js-animate-fragments";
+import RevealFragmentScript from "reveal.js-fragment-script";
+import { SVG } from "@svgdotjs/svg.js";
+
+(window as any).SVG = SVG;
 
 export const plugins = [
   Markdown,
   RevealNotes,
   RevealAnimateFragments,
   RevealHighlight,
-  RevealAnimate,
+  RevealFragmentScript,
 ];
 
 export const config = {

@@ -12,7 +12,7 @@
           "type": {
             "text": "array"
           },
-          "default": "[\n  Markdown,\n  RevealNotes,\n  RevealAnimateFragments,\n  RevealHighlight,\n]"
+          "default": "[\n  Markdown,\n  RevealNotes,\n  RevealFragmentScript,\n  RevealAnimateFragments,\n  RevealHighlight,\n]"
         },
         {
           "kind": "variable",

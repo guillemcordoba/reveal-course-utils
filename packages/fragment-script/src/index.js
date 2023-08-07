@@ -1,18 +1,21 @@
-export default () => ({
-  id: "script-fragment",
-  init: (deck) => {
-    const animateElements = document.querySelectorAll("script[data-fragment]");
+import { v4 as uuidv4 } from "uuid";
 
-    for (const element of animateElements) {
+export default () => ({
+  id: "fragment-script",
+  init: (deck) => {
+    const fragmentScripts = document.querySelectorAll("fragment-script");
+
+    for (const element of fragmentScripts) {
       const js = element.innerHTML;
       const span = document.createElement("span");
       span.setAttribute("class", "fragment");
+      const id = uuidv4();
+      span.id = id;
 
       element.innerHTML = "";
       element.appendChild(span);
-
       deck.on("fragmentshown", (event) => {
-        if (event.fragment === span) {
+        if (event.fragment.id === id) {
           eval(js);
         }
       });

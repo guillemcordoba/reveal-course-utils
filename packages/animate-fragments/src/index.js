@@ -160,6 +160,7 @@ export default () => ({
             const lines = html.split("\n");
             for (let i = 0; i < lines.length; i++) {
               const line = removeFragmentSpan(lines[i]);
+              if (lines[i].includes("fragment-script")) console.log(line);
               if (
                 !line.match(/^.*?{$/gm) &&
                 !line.match(/^.*?{[^}:].*$/gm) &&
@@ -299,8 +300,9 @@ export default () => ({
 });
 
 function removeFragmentSpan(html) {
-  html = html.replace('<span class="fragment fade-in">', "");
-  html = html.replace('<span class="fragment strike">', "");
+  html = html.replace("<fragment-script>", "");
+  html = html.replace("</fragment-script>", "");
+  html = html.replace(/<span class="fragment[^>]*?>/gm, "");
   html = html.replace(/<\/span>/gm, "");
   return html;
 }

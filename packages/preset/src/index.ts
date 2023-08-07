@@ -10,9 +10,9 @@ import { SVG } from "@svgdotjs/svg.js";
 export const plugins = [
   Markdown,
   RevealNotes,
+  RevealFragmentScript,
   RevealAnimateFragments,
   RevealHighlight,
-  RevealFragmentScript,
 ];
 
 export const config = {

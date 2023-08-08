@@ -6,7 +6,9 @@ export default () => ({
     const fragmentScripts = document.querySelectorAll("fragment-script");
 
     for (const element of fragmentScripts) {
-      const js = element.innerHTML;
+      const js = element.innerHTML
+        .replaceAll("&gt;", ">")
+        .replaceAll("&lt;", "<");
       const span = document.createElement("span");
       span.setAttribute("class", "fragment");
       const id = uuidv4();

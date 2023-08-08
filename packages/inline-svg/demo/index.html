@@ -77,18 +77,17 @@
     <div class="reveal">
       <div class="slides">
         <section>
-          <span class="fragment">asdf</span>
-          <fragment-script> console.log('hi'); </fragment-script>
+          <inline-svg id="s" src="s.svg"></inline-svg>
         </section>
       </div>
     </div>
     <script type="module">
-      import RevealFragmentScript from "../src/index.js";
+      import RevealInlineSvg from "../src/index.js";
 
       import Reveal from "reveal.js";
 
       let deck = new Reveal({
-        plugins: [RevealFragmentScript],
+        plugins: [RevealInlineSvg],
 
         center: false,
         transition: "none",

@@ -1,5 +1,5 @@
 {
-  "name": "reveal-course-preset",
+  "name": "@mythosthesia/reveal-course-preset",
   "version": "0.1.0",
   "description": "",
   "author": "guillem.cordoba@gmail.com",
@@ -22,7 +22,9 @@
     "@svgdotjs/svg.js": "^3.2.0",
     "reveal.js": "=4.3.1",
     "reveal.js-fragment-script": "file:../fragment-script",
-    "reveal.js-animate-fragments": "file:../animate-fragments"
+    "reveal.js-inline-svg": "file:../inline-svg",
+    "reveal.js-animate-fragments": "file:../animate-fragments",
+    "reveal.js-svg-timeline-fragment": "file:../svg-timeline-fragment"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.4.17",

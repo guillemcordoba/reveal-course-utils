@@ -20,12 +20,14 @@ export default () => ({
       element.innerHTML = "";
       element.appendChild(span);
 
-      const timeline = new SVG.Timeline();
-      timeline.persist(true);
       const originalFn = SVG.Element.timeline;
+      let timeline = undefined;
 
       deck.on("fragmentshown", (event) => {
         if (event.fragment.id === id) {
+          timeline = new SVG.Timeline();
+          timeline.persist(true);
+
           SVG.extend(SVG.Element, {
             timeline: function () {
               return timeline;
@@ -39,7 +41,13 @@ export default () => ({
       });
       deck.on("fragmenthidden", (event) => {
         if (event.fragment.id === id) {
-          timeline.stop();
+          SVG.extend(SVG.Element, {
+            timeline: function () {
+              return timeline;
+            },
+          });
+          eval(js);
+          timeline.reverse();
         }
       });
     }

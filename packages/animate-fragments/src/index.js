@@ -303,6 +303,10 @@ function removeFragmentSpan(html) {
   html = html.replace("<fragment-script>", "");
   html = html.replace("</fragment-script>", "");
   html = html.replace(/<span class="fragment[^>]*?>/gm, "");
+  html = html.replace(
+    /<svg-timeline-fragment[^>]*?>.*?<\/svg-timeline-fragment>/gm,
+    ""
+  );
   html = html.replace(/<\/span>/gm, "");
   return html;
 }

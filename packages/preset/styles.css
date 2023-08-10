@@ -8,6 +8,11 @@ body {
   --r-heading-margin: 20px 0 12px 0;
 }
 
+svg * {
+  font-family: var(--r-main-font) !important;
+  font-size: var(--r-main-font-size) !important;
+}
+
 code {
   font-size: 1.25em !important;
   line-height: 1em;
@@ -29,7 +34,13 @@ section {
 }
 
 .column {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
 }
 
 section {

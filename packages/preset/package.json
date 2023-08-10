@@ -24,7 +24,7 @@
     "reveal.js-fragment-script": "file:../fragment-script",
     "reveal.js-inline-svg": "file:../inline-svg",
     "reveal.js-animate-fragments": "file:../animate-fragments",
-    "reveal.js-svg-timeline-fragment": "file:../svg-timeline-fragment"
+    "reveal.js-svg-fragment-timeline": "file:../svg-fragment-timeline"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.4.17",

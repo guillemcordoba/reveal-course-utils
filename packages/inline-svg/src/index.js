@@ -9,6 +9,9 @@ export default () => ({
       const response = await fetchAndRetry(src);
       const svg = await response.text();
 
+      const scriptSetup =
+        element.querySelector("script[data-setup]")?.innerHTML;
+
       element.innerHTML = svg;
 
       const svgNode = element.querySelector("svg");
@@ -22,6 +25,8 @@ export default () => ({
       }
       element.id = "";
       element.style = "display: contents";
+
+      if (scriptSetup) eval(scriptSetup);
     }
   },
 });

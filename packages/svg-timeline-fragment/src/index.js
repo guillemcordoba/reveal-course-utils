@@ -2,10 +2,10 @@ import { v4 as uuidv4 } from "uuid";
 import * as SVG from "@svgdotjs/svg.js";
 
 export default () => ({
-  id: "svg-fragment-timeline",
+  id: "svg-timeline-fragment",
   init: (deck) => {
     const svgTimelineFragments = document.querySelectorAll(
-      "svg-fragment-timeline"
+      "svg-timeline-fragment"
     );
 
     for (let i = 0; i < svgTimelineFragments.length; i++) {
@@ -15,7 +15,7 @@ export default () => ({
         .replaceAll("&lt;", "<");
       const span = document.createElement("span");
       span.setAttribute("class", "fragment");
-      const id = `svg-fragment-timeline-${uuidv4()}`;
+      const id = `svg-timeline-fragment-${uuidv4()}`;
       span.id = id;
 
       element.innerHTML = "";

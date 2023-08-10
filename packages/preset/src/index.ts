@@ -2,9 +2,9 @@ import Markdown from "reveal.js/plugin/markdown/markdown.esm.js";
 import RevealHighlight from "reveal.js/plugin/highlight/highlight.esm.js";
 import RevealNotes from "reveal.js/plugin/notes/notes.esm.js";
 import RevealInlineSvg from "reveal.js-inline-svg";
-import RevealSvgFragmentTimeline from "reveal.js-svg-fragment-timeline";
+import RevealSvgTimelineFragment from "reveal.js-svg-timeline-fragment";
 import RevealAnimateFragments from "reveal.js-animate-fragments";
-import RevealFragmentScript from "reveal.js-fragment-script";
+import RevealScriptFragment from "reveal.js-script-fragment";
 import * as SVG from "@svgdotjs/svg.js";
 
 (window as any).SVG = SVG;
@@ -12,9 +12,9 @@ import * as SVG from "@svgdotjs/svg.js";
 export const plugins = [
   Markdown,
   RevealInlineSvg,
-  RevealSvgFragmentTimeline,
+  RevealSvgTimelineFragment,
   RevealNotes,
-  RevealFragmentScript,
+  RevealScriptFragment,
   RevealAnimateFragments,
   RevealHighlight,
 ];

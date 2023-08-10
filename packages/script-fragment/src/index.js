@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 
 export default () => ({
-  id: "fragment-script",
+  id: "script-fragment",
   init: (deck) => {
-    const fragmentScripts = document.querySelectorAll("fragment-script");
+    const fragmentScripts = document.querySelectorAll("script-fragment");
 
     for (const element of fragmentScripts) {
       const js = element.innerHTML

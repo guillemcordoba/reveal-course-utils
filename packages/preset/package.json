@@ -21,10 +21,10 @@
   "dependencies": {
     "@svgdotjs/svg.js": "^3.2.0",
     "reveal.js": "=4.3.1",
-    "reveal.js-fragment-script": "file:../fragment-script",
+    "reveal.js-script-fragment": "file:../script-fragment",
     "reveal.js-inline-svg": "file:../inline-svg",
     "reveal.js-animate-fragments": "file:../animate-fragments",
-    "reveal.js-svg-fragment-timeline": "file:../svg-fragment-timeline"
+    "reveal.js-svg-timeline-fragment": "file:../svg-timeline-fragment"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.4.17",

@@ -10,6 +10,32 @@
     <base href="/" />
 
     <title>Lesson 1</title>
+
+    <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" />
+    <link
+      rel="stylesheet"
+      href="/node_modules/reveal.js/dist/theme/black.css"
+    />
+    <link
+      rel="stylesheet"
+      href="/node_modules/reveal.js/plugin/highlight/monokai.css"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+        background-color: #ededed;
+        --r-main-font-size: 24px;
+        --r-heading-margin: 20px 0 12px 0;
+      }
+
+      code {
+        font-size: 1.25em !important;
+        line-height: 1em;
+        padding: 20px;
+      }
+    </style>
   </head>
 
   <body>
@@ -18,8 +44,7 @@
         <section>
           <h3>Declaration of Variables</h3>
 
-          <fragment>
-            <pre><code class="rust" data-visualize-execution data-trim data-noescape animate="by-line with-ancestry balanced separate-comments trailing-comments-in-popover">
+          <pre><code class="rust" data-visualize-execution data-trim data-noescape>
 use std::collections::HashMap;
 
 let mut map: HashMap&lt;String, String&gt; = HashMap::new();
@@ -48,15 +73,19 @@ mutable_age = "seven"; // Error: Strict typing: cannot assign a value of another
 
 fn s(i: u32, u: u32) {}
 </code></pre>
-          </fragment>
         </section>
       </div>
     </div>
 
     <script type="module">
       import Reveal from "reveal.js";
+      import RevealHighlight from "reveal.js/plugin/highlight/highlight.esm.js";
+      import RevealScriptFragment from "reveal.js-script-fragment";
+      import "../dist/elements/rust-execution-visualizer.js";
 
-      let deck = new Reveal();
+      let deck = new Reveal({
+        plugins: [RevealHighlight, RevealScriptFragment],
+      });
       deck.initialize({});
     </script>
   </body>

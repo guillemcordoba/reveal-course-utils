@@ -1,5 +1,6 @@
 import { rollupPluginHTML } from "@web/rollup-plugin-html";
-import { visualizeCodeExecution } from "./src/index.js";
+import resolve from "@rollup/plugin-node-resolve";
+import { visualizeCodeExecution } from "../dist/index.js";
 
 export default {
   input: "demo/index.html",
@@ -8,11 +9,12 @@ export default {
     chunkFileNames: "[hash].js",
     assetFileNames: "[hash][extname]",
     format: "es",
-    dir: "dist",
+    dir: "demo/dist",
   },
   preserveEntrySignatures: false,
 
   plugins: [
+    resolve(),
     /** Enable using HTML as rollup entrypoint */
     rollupPluginHTML({
       transformHtml: async (code) => visualizeCodeExecution(code),

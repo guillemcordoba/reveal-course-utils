@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es2020",
+    "lib": ["es2021"],
+    "sourceMap": true,
+    "baseUrl": "src",
+    "declaration": true,
+    "declarationDir": "dist",
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "incremental": true,
+    "outDir": "dist",
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules/**/*", "dist", "tests"]
+}

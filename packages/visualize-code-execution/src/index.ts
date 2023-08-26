@@ -2,8 +2,10 @@ import fs from "fs";
 import path from "path";
 import os from "os";
 import { execSync, spawn } from "child_process";
+import { v4 as uuidv4 } from "uuid";
+import { Frame, Step, Variables } from "./types.js";
 
-export async function visualizeCodeExecution(html) {
+export async function visualizeCodeExecution(html: string): Promise<string> {
   const codes = html.matchAll(
     /<code [^>]*? data-visualize-execution[^>]*?>([\w\W]*?)<\/code>/gm
   );
@@ -12,16 +14,17 @@ export async function visualizeCodeExecution(html) {
     let code = cleanUpCode(result[1]);
 
     const startIndex = result.index + result[0].length - result[1].length - 7;
-    const endIndex = result.index + result[0].length - 8;
+    const endIndex = result.index + result[0].length + 6;
 
-    const replaced = await addCodeExecutionVisualization(code);
-    html = html.slice(0, startIndex) + replaced + html.slice(endIndex);
+    const visualizationCode = await codeExecutionVisualization(code);
+    html = html.slice(0, endIndex) + visualizationCode + html.slice(endIndex);
+    console.log(html);
   }
 
   return html;
 }
 
-function cleanUpCode(code) {
+function cleanUpCode(code: string): string {
   if (!code.match(/fn main\(\)/gm)) {
     code = `fn main() {
         ${code}
@@ -36,18 +39,35 @@ function cleanUpCode(code) {
   return code;
 }
 
-async function addCodeExecutionVisualization(rustCode) {
+async function codeExecutionVisualization(rustCode: string): Promise<string> {
   const cratePath = createTmpCrate(rustCode);
 
-  execSync("CARGO_TARGET_DIR=target cargo build", {
+  execSync("cargo build --target-dir target", {
     cwd: cratePath,
   });
-  await executeAndDebugProgram(cratePath);
+  const steps = await executeAndDebugProgram(cratePath);
 
-  return rustCode;
+  const id = `rust-execution-visualizer-${uuidv4()}`;
+
+  return `<rust-execution-visualizer id="${id}"></rust-execution-visualizer>
+
+    ${steps
+      .map(
+        (step) => `
+      <script-fragment>
+        <script type="text/template">
+      document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
+          step
+        ).replaceAll("\\", "\\\\")}');
+        </script>
+      </script-fragment>
+      `
+      )
+      .join("")}
+    `;
 }
 
-function createTmpCrate(code) {
+function createTmpCrate(code: string): string {
   const tmpDir = fs.mkdtempSync(
     path.join(os.tmpdir(), "visualize-code-execution")
   );
@@ -70,7 +90,7 @@ opt-level = 0
 `;
 }
 
-async function executeAndDebugProgram(cratePath) {
+async function executeAndDebugProgram(cratePath: string): Promise<Step[]> {
   const rustGdb = spawn("rust-gdb", ["target/debug/inline-code"], {
     cwd: cratePath,
   });
@@ -83,7 +103,7 @@ async function executeAndDebugProgram(cratePath) {
   await runAndExpect(rustGdb, "run", /\(gdb\) $/gm, 3000, 1000);
   await runAndExpect(rustGdb, "clear", /\(gdb\) $/gm);
 
-  const steps = [];
+  const steps: Step[] = [];
 
   let finished = false;
 
@@ -94,11 +114,11 @@ async function executeAndDebugProgram(cratePath) {
       /#(\d) .*? inline_code::(?:.*?::)*(.*?) \((.*?)\) at src\/(.*?).rs:(\d+)\n([^#]*)/gm
     );
 
-    const frames = [];
+    const frames: Frame[] = [];
 
     for (let i = 0; i < frameMatches.length; i++) {
       const match = frameMatches[i];
-      const variables = {};
+      const variables: Variables = {};
 
       const functionArguments = match[3]
         .split(", ")
@@ -142,7 +162,7 @@ async function executeAndDebugProgram(cratePath) {
 
       frames.push({
         fn_name: match[2],
-        line: match[5],
+        line: parseInt(match[5]),
         variables,
       });
     }
@@ -173,6 +193,8 @@ async function executeAndDebugProgram(cratePath) {
   console.log(JSON.stringify(steps));
 
   rustGdb.stdin.write("q\n");
+
+  return steps;
 }
 
 async function expect(child, expectation, timeout = 3000) {
@@ -193,23 +215,38 @@ async function expect(child, expectation, timeout = 3000) {
 
 async function runAndExpect(
   child,
-  command,
-  expectation,
+  command: string,
+  expectation: RegExp,
   timeout = 3000,
   stdoutTimeout = 50
-) {
+): Promise<RegExpMatchArray[]> {
   return new Promise((resolve, reject) => {
     let result = "";
     child.stdin.write(command + "\n");
     child.stdout.on("data", (data) => (result += data.toString() + "\n"));
     child.stderr.on("data", (data) => reject(data.toString()));
     setTimeout(() => {
-      if (typeof expectation === "string") {
-        if (result === expectation) resolve(result);
-      } else {
-        const results = [...result.matchAll(expectation)];
-        if (results.length > 0) resolve(results);
-      }
+      const results = [...result.matchAll(expectation)];
+      if (results.length > 0) resolve(results);
+    }, stdoutTimeout);
+    setTimeout(() => reject("Timeout reached"), timeout);
+  });
+}
+
+async function runAndExpectString(
+  child,
+  command: string,
+  expectation: string,
+  timeout = 3000,
+  stdoutTimeout = 50
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    let result = "";
+    child.stdin.write(command + "\n");
+    child.stdout.on("data", (data) => (result += data.toString() + "\n"));
+    child.stderr.on("data", (data) => reject(data.toString()));
+    setTimeout(() => {
+      if (result === expectation) resolve(undefined);
     }, stdoutTimeout);
     setTimeout(() => reject("Timeout reached"), timeout);
   });

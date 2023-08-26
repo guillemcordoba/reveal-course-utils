@@ -20,6 +20,12 @@
 
           <fragment>
             <pre><code class="rust" data-visualize-execution data-trim data-noescape animate="by-line with-ancestry balanced separate-comments trailing-comments-in-popover">
+use std::collections::HashMap;
+
+let mut map: HashMap&lt;String, String&gt; = HashMap::new();
+
+map.insert(String::from("adsf"), String::from("asdf2"));
+
 let user_age: f32 = 1.0; // Declare with "let", in snake case
 
 let user_age: f32 = 2.0; // Redeclaration

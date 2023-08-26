@@ -29,6 +29,8 @@ function cleanUpCode(code) {
   }
 
   code = code.replaceAll(/^.*?\/\/ Error.*?$/gm, "\n");
+  code = code.replaceAll(/&lt;/gm, "<");
+  code = code.replaceAll(/&gt;/gm, ">");
 
   console.log(code);
   return code;
@@ -79,6 +81,7 @@ async function executeAndDebugProgram(cratePath) {
   await expect(rustGdb, "(gdb) ");
   await runAndExpect(rustGdb, "break 1", /\(gdb\) $/gm, 3000);
   await runAndExpect(rustGdb, "run", /\(gdb\) $/gm, 3000, 1000);
+  await runAndExpect(rustGdb, "clear", /\(gdb\) $/gm);
 
   const steps = [];
 
@@ -107,7 +110,7 @@ async function executeAndDebugProgram(cratePath) {
       const localVars = match[6];
 
       if (!localVars.includes("No locals.")) {
-        const varMatches = localVars.matchAll(/\s*([^= ]+) = [^\n]+?/gm);
+        const varMatches = localVars.matchAll(/\s*([^= ]+?) = [^\n]+/gm);
         for (const varName of [...varMatches]) {
           if (!variablesNames.includes(varName[1])) {
             variablesNames.push(varName[1]);
@@ -139,7 +142,7 @@ async function executeAndDebugProgram(cratePath) {
 
       frames.push({
         fn_name: match[2],
-        line: match[4],
+        line: match[5],
         variables,
       });
     }
@@ -151,15 +154,14 @@ async function executeAndDebugProgram(cratePath) {
     let whereMatches = await runAndExpect(
       rustGdb,
       "where",
-      /#0.*?\s+at\s*? (.*?):(\d+)$/gm
+      /#0[\s\S]*?\s+at\s*? (.*?):(\d+)$/gm
     );
-
     while (whereMatches[0][1] !== "src/main.rs") {
       await runAndExpect(rustGdb, "finish", /\(gdb\) /gm);
       whereMatches = await runAndExpect(
         rustGdb,
         "where",
-        /#0.*? at (.*?):(\d+)$/gm
+        /#0[\s\S]*?\s+at\s*? (.*?):(\d+)$/gm
       );
       if (parseInt(whereMatches[0][2]) === codeLines) {
         finished = true;

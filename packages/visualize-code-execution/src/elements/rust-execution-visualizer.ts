@@ -1,8 +1,14 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { Frame } from "types";
+import { repeat } from "lit/directives/repeat.js";
+import { animate, fadeIn, flyAbove } from "@lit-labs/motion";
+import { Frame } from "../types.js";
 
 const colors = ["blue", "red", "green", "yellow"];
+
+function removeImportsFromRustType(rustType: string): string {
+  return rustType.replaceAll(/([a-zA-Z_]+::)*/gm, "");
+}
 
 @customElement("rust-execution-visualizer")
 export class RustExecutionVisualizer extends LitElement {
@@ -11,19 +17,34 @@ export class RustExecutionVisualizer extends LitElement {
 
   renderFrame(frame: Frame) {
     return html`
-      <table style="margin-bottom: 8px">
+      <table
+        style="margin-bottom: 8px"
+        ${animate({
+          in: flyAbove,
+        })}
+      >
         <thead>
           <th>${frame.fn_name}</th>
         </thead>
 
-        ${Object.entries(frame.variables).map(
+        ${repeat(
+          Object.entries(frame.variables),
+          ([name, _]) => name,
           ([name, variablecontent]) => html`
-            <tr>
-              <td style="border-right: 1px solid #ddd;">${name}</td>
-              <td style="border-right: 1px solid #ddd;">
-                ${variablecontent.type}
+            <tr
+              ${animate({
+                in: fadeIn,
+              })}
+            >
+              <td width="102px" style="border-right: 1px solid #ddd;">
+                ${name}
               </td>
-              <td style="text-align: center">${variablecontent.value}</td>
+              <td style="border-right: 1px solid #ddd;">
+                ${removeImportsFromRustType(variablecontent.type)}
+              </td>
+              <td style="text-align: center;" width="160px">
+                ${variablecontent.value}
+              </td>
             </tr>
           `
         )}
@@ -34,7 +55,11 @@ export class RustExecutionVisualizer extends LitElement {
   render() {
     return html`
       <div class="column">
-        ${this.frames.map((frame) => this.renderFrame(frame))}
+        ${repeat(
+          this.frames,
+          (frame) => frame.fn_name,
+          (frame) => this.renderFrame(frame)
+        )}
       </div>
     `;
   }
@@ -56,17 +81,20 @@ export class RustExecutionVisualizer extends LitElement {
     }
     thead {
       margin: 8px;
+      background-color: white;
     }
     tr {
       padding: 8px;
-      display: flex;
       flex-direction: row;
     }
     td {
-      flex: 1;
+      padding: 8px;
     }
     table tr:nth-child(even) {
       background-color: #f2f2f2;
+    }
+    table tr:nth-child(odd) {
+      background-color: #ffffff;
     }
   `;
 }

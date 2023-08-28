@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": "./dist/index.js",
     "./dist/*": "./dist/*"
@@ -16,11 +18,11 @@
     "test": "npm run build && rollup -c demo/rollup.config.js"
   },
   "devDependencies": {
-    "reveal.js-script-fragment": "file:../script-fragment",
     "@rollup/plugin-node-resolve": "^15.2.1",
     "@web/dev-server": "^0.3.0",
     "@web/rollup-plugin-html": "^2.0.0",
     "reveal.js": "^4.5.0",
+    "reveal.js-script-fragment": "file:../script-fragment",
     "rollup": "^3.28.0",
     "typescript": "^5.2.2",
     "uuid": "^9.0.0"
@@ -30,6 +32,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@lit-labs/motion": "^1.0.4",
     "lit": "^2.8.0",
     "temp-dir": "^3.0.0"
   }

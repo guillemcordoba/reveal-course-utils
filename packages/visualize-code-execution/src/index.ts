@@ -11,14 +11,11 @@ export async function visualizeCodeExecution(html: string): Promise<string> {
   );
 
   for (const result of Array.from(codes).reverse()) {
-    let code = cleanUpCode(result[1]);
+    const startIndex = result.index;
+    const endIndex = result.index + result[0].length;
 
-    const startIndex = result.index + result[0].length - result[1].length - 7;
-    const endIndex = result.index + result[0].length + 6;
-
-    const visualizationCode = await codeExecutionVisualization(code);
+    const visualizationCode = await codeExecutionVisualization(result[1]);
     html = html.slice(0, endIndex) + visualizationCode + html.slice(endIndex);
-    console.log(html);
   }
 
   return html;
@@ -26,44 +23,92 @@ export async function visualizeCodeExecution(html: string): Promise<string> {
 
 function cleanUpCode(code: string): string {
   if (!code.match(/fn main\(\)/gm)) {
-    code = `fn main() {
-        ${code}
+    code = `fn main() {${code}
       }`;
   }
 
-  code = code.replaceAll(/^.*?\/\/ Error.*?$/gm, "\n");
+  code = code.replaceAll(/^.*?\/\/ Error.*?$/gm, "");
   code = code.replaceAll(/&lt;/gm, "<");
   code = code.replaceAll(/&gt;/gm, ">");
 
-  console.log(code);
   return code;
 }
 
 async function codeExecutionVisualization(rustCode: string): Promise<string> {
-  const cratePath = createTmpCrate(rustCode);
+  let code = cleanUpCode(rustCode);
+  const cratePath = createTmpCrate(code);
 
   execSync("cargo build --target-dir target", {
     cwd: cratePath,
   });
-  const steps = await executeAndDebugProgram(cratePath);
+  let steps = await executeAndDebugProgram(cratePath);
+
+  if (!rustCode.includes("fn main()")) {
+    steps = steps.map((step) =>
+      step.map((frame) => ({ ...frame, line: frame.line - 1 }))
+    );
+  }
 
   const id = `rust-execution-visualizer-${uuidv4()}`;
+  const arrowId = `arrow-${uuidv4()}`;
 
-  return `<rust-execution-visualizer id="${id}"></rust-execution-visualizer>
+  return `<rust-execution-visualizer id="${id}" style="color: black; position: absolute; right: -15%; top: 0; width: 350px"></rust-execution-visualizer>
 
+    <span id="${arrowId}" style="position: absolute; top: 0; left: -10px; margin-top: 5px; display: none;">⮕</span>
+
+      <script-fragment>
+        <script type="text/template">
+        document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
+    steps[0]
+  ).replaceAll("\\", "\\\\")}');
+        document.querySelector("#${arrowId}").style.display = "block";
+        document.querySelector("#${arrowId}").style.top = '${
+    1.25 * (steps[0][0].line - 1)
+  }em';
+        </script>
+        <script data-on-hide type="text/template">
+        document.querySelector("#${id}").frames = [];
+        document.querySelector("#${arrowId}").style.display = "none";
+        </script>
+      </script-fragment>
     ${steps
+      .slice(1)
       .map(
-        (step) => `
+        (step, i) => `
       <script-fragment>
         <script type="text/template">
       document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
           step
         ).replaceAll("\\", "\\\\")}');
+        document.querySelector("#${arrowId}").style.top = '${
+          1.25 * (step[0].line - 1)
+        }em';
+        </script>
+        <script data-on-hide type="text/template">
+          document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
+          steps[i]
+        ).replaceAll("\\", "\\\\")}');
+          document.querySelector("#${arrowId}").style.display = "block";        
+          document.querySelector("#${arrowId}").style.top = '${
+          1.25 * (steps[i][0].line - 1)
+        }em';
         </script>
       </script-fragment>
       `
       )
       .join("")}
+      <script-fragment>
+        <script type="text/template">
+          document.querySelector("#${arrowId}").style.display = "none";        
+          document.querySelector("#${id}").frames = [];
+        </script>
+        <script data-on-hide type="text/template">
+          document.querySelector("#${arrowId}").style.display = "block";
+          document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
+    steps[steps.length - 1]
+  ).replaceAll("\\", "\\\\")}');
+        </script>
+      </script-fragment>
     `;
 }
 
@@ -96,18 +141,22 @@ async function executeAndDebugProgram(cratePath: string): Promise<Step[]> {
   });
 
   const code = fs.readFileSync(`${cratePath}/src/main.rs`).toString();
-  const codeLines = code.split("\n").length;
+  const codeLines = code.split("\n");
+  const codeLinesNumber = codeLines.length;
+
+  const fnMatches = code.matchAll(/fn ([a-zA-Z\_0-9]+)\(/gm);
 
   await expect(rustGdb, "(gdb) ");
-  await runAndExpect(rustGdb, "break 1", /\(gdb\) $/gm, 3000);
+
+  for (const fnMatch of [...fnMatches]) {
+    await runAndExpect(rustGdb, `break ${fnMatch[1]}`, /\(gdb\) $/gm, 3000);
+  }
   await runAndExpect(rustGdb, "run", /\(gdb\) $/gm, 3000, 1000);
-  await runAndExpect(rustGdb, "clear", /\(gdb\) $/gm);
+  await runAndExpect(rustGdb, "next", /.*/gm, 5000, 1000);
 
   const steps: Step[] = [];
 
-  let finished = false;
-
-  while (!finished) {
+  while (true) {
     const frameMatches = await runAndExpect(
       rustGdb,
       "backtrace full",
@@ -169,24 +218,20 @@ async function executeAndDebugProgram(cratePath: string): Promise<Step[]> {
     steps.push(frames);
 
     try {
-      await runAndExpect(rustGdb, "step", /.*/gm, 5000, 1000);
+      await runAndExpect(rustGdb, "next", /\(gdb\)/gm);
     } catch (e) {}
     let whereMatches = await runAndExpect(
       rustGdb,
       "where",
-      /#0[\s\S]*?\s+at\s*? (.*?):(\d+)$/gm
+      /#0[\s\S]*?\s+at\s*? (.*?):(\d+)$/gm,
+      5000,
+      100
     );
-    while (whereMatches[0][1] !== "src/main.rs") {
-      await runAndExpect(rustGdb, "finish", /\(gdb\) /gm);
-      whereMatches = await runAndExpect(
-        rustGdb,
-        "where",
-        /#0[\s\S]*?\s+at\s*? (.*?):(\d+)$/gm
-      );
-      if (parseInt(whereMatches[0][2]) === codeLines) {
-        finished = true;
-        break;
-      }
+    if (
+      parseInt(whereMatches[0][2]) === codeLinesNumber ||
+      whereMatches[0][0].includes("__rust_begin_short_backtrace")
+    ) {
+      break;
     }
   }
 
@@ -218,7 +263,7 @@ async function runAndExpect(
   command: string,
   expectation: RegExp,
   timeout = 3000,
-  stdoutTimeout = 50
+  stdoutTimeout = 10
 ): Promise<RegExpMatchArray[]> {
   return new Promise((resolve, reject) => {
     let result = "";

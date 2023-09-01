@@ -1,7 +1,9 @@
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
 import { repeat } from "lit/directives/repeat.js";
-import { animate, fadeIn, flyAbove } from "@lit-labs/motion";
+import { animate, fadeIn, fadeOut, flyAbove } from "@lit-labs/motion";
+
 import { Frame } from "../types.js";
 
 const colors = ["blue", "red", "green", "yellow"];
@@ -13,37 +15,154 @@ function removeImportsFromRustType(rustType: string): string {
 @customElement("rust-execution-visualizer")
 export class RustExecutionVisualizer extends LitElement {
   @property()
-  frames: Array<Frame> = [];
+  displayChanged = true;
+
+  _changed: Record<
+    string,
+    {
+      newFrame: boolean;
+      variables: Record<
+        string,
+        {
+          name: boolean;
+          type: boolean;
+          value: boolean;
+        }
+      >;
+    }
+  > = {}; // Segmented by frame name, variable name
+
+  _frames: Array<Frame> = [];
+  get frames() {
+    return this._frames;
+  }
+
+  @property()
+  set frames(f: Array<Frame>) {
+    const oldFrames = this._frames;
+
+    this._changed = {};
+
+    for (const newFrame of f) {
+      this._changed[newFrame.fn_name] = {
+        newFrame: false,
+        variables: {},
+      };
+      const oldFrame = oldFrames.find(
+        (oldFrame) => oldFrame.fn_name === newFrame.fn_name
+      );
+      if (!oldFrame) {
+        // This frame is new
+        this._changed[newFrame.fn_name].newFrame = true;
+      } else {
+        // Frame is the same
+        for (const [newVarName, newVarContents] of Object.entries(
+          newFrame.variables
+        )) {
+          const oldVariableContent = oldFrame.variables[newVarName];
+          if (oldVariableContent) {
+            if (oldVariableContent.address !== newVarContents.address) {
+              // This is a new variable
+              this._changed[newFrame.fn_name].variables[newVarName] = {
+                name: true,
+                type: true,
+                value: true,
+              };
+            } else {
+              const typeChanged =
+                oldVariableContent.type !== newVarContents.type;
+              const valueChanged =
+                oldVariableContent.value !== newVarContents.value;
+
+              this._changed[newFrame.fn_name].variables[newVarName] = {
+                name: false,
+                type: typeChanged,
+                value: valueChanged,
+              };
+            }
+          } else {
+            // This is a new variable
+            this._changed[newFrame.fn_name].variables[newVarName] = {
+              name: true,
+              type: true,
+              value: true,
+            };
+          }
+        }
+      }
+    }
+
+    this._frames = f;
+
+    this.requestUpdate();
+  }
 
   renderFrame(frame: Frame) {
     return html`
       <table
         style="margin-bottom: 8px"
         ${animate({
-          in: flyAbove,
+          in: fadeIn,
+          out: fadeOut,
+          properties: ["opacity", "top", "background"],
+        })}
+        class=${classMap({
+          "changed-table": this._changed[frame.fn_name].newFrame,
         })}
       >
-        <thead>
-          <th>${frame.fn_name}</th>
-        </thead>
+        <caption>
+          <span> ${frame.fn_name} </span>
+        </caption>
 
         ${repeat(
-          Object.entries(frame.variables),
-          ([name, _]) => name,
+          Object.entries(frame.variables).sort(([n1], [n2]) =>
+            n1.localeCompare(n2)
+          ),
+          ([name, variableContent]) => variableContent.address,
           ([name, variablecontent]) => html`
             <tr
               ${animate({
                 in: fadeIn,
+                out: fadeOut,
+                properties: ["opacity"],
               })}
             >
-              <td width="102px" style="border-right: 1px solid #ddd;">
+              <td
+                width="102px"
+                style="border-right: 1px solid #ddd;"
+                class=${classMap({
+                  changed: this._changed[frame.fn_name].variables[name]?.name,
+                })}
+                ${animate({
+                  properties: ["background"],
+                })}
+              >
                 ${name}
               </td>
-              <td style="border-right: 1px solid #ddd;">
+              <td
+                style="border-right: 1px solid #ddd;"
+                class=${classMap({
+                  changed: this._changed[frame.fn_name].variables[name]?.type,
+                })}
+                ${animate({
+                  properties: ["background"],
+                })}
+              >
                 ${removeImportsFromRustType(variablecontent.type)}
               </td>
-              <td style="text-align: center;" width="160px">
-                ${variablecontent.value}
+              <td
+                style="text-align: center;"
+                width="160px"
+                class=${classMap({
+                  changed: this._changed[frame.fn_name].variables[name]?.value,
+                })}
+                ${animate({
+                  properties: ["background"],
+                })}
+              >
+                ${variablecontent.value.match(/^\"\\2/gm)
+                  ? "[CONSUMED]"
+                  : variablecontent.value}
               </td>
             </tr>
           `
@@ -54,7 +173,12 @@ export class RustExecutionVisualizer extends LitElement {
 
   render() {
     return html`
-      <div class="column">
+      <div
+        class=${classMap({
+          column: true,
+          "display-changed": this.displayChanged,
+        })}
+      >
         ${repeat(
           this.frames,
           (frame) => frame.fn_name,
@@ -95,6 +219,22 @@ export class RustExecutionVisualizer extends LitElement {
     }
     table tr:nth-child(odd) {
       background-color: #ffffff;
+    }
+    caption {
+      background: white;
+    }
+    caption span {
+      display: block;
+    }
+
+    .display-changed .changed {
+      background: rgba(255, 0, 0, 0.5);
+    }
+    .display-changed .changed-table td {
+      background: rgba(255, 0, 0, 0.5);
+    }
+    .display-changed .changed-table caption span {
+      background: rgba(255, 0, 0, 0.5);
     }
   `;
 }

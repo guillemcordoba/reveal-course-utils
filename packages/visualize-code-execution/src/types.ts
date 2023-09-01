@@ -1,6 +1,7 @@
 export type Step = Array<Frame>;
 
 export interface VariableContent {
+  address: string;
   type: string;
   value: string;
 }

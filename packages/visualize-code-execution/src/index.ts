@@ -52,12 +52,13 @@ async function codeExecutionVisualization(rustCode: string): Promise<string> {
   const id = `rust-execution-visualizer-${uuidv4()}`;
   const arrowId = `arrow-${uuidv4()}`;
 
-  return `<rust-execution-visualizer id="${id}" style="color: black; position: absolute; right: -15%; top: 0; width: 350px"></rust-execution-visualizer>
+  return `<rust-execution-visualizer id="${id}" style="color: black; position: absolute; right: -15%; top: 0; width: 420px"></rust-execution-visualizer>
 
     <span id="${arrowId}" style="position: absolute; top: 0; left: -10px; margin-top: 5px; display: none;">⮕</span>
 
       <script-fragment>
         <script type="text/template">
+        document.querySelector("#${id}").displayChanged = true;
         document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
     steps[0]
   ).replaceAll("\\", "\\\\")}');
@@ -67,6 +68,7 @@ async function codeExecutionVisualization(rustCode: string): Promise<string> {
   }em';
         </script>
         <script data-on-hide type="text/template">
+        document.querySelector("#${id}").displayChanged = false;
         document.querySelector("#${id}").frames = [];
         document.querySelector("#${arrowId}").style.display = "none";
         </script>
@@ -77,14 +79,16 @@ async function codeExecutionVisualization(rustCode: string): Promise<string> {
         (step, i) => `
       <script-fragment>
         <script type="text/template">
-      document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
+          document.querySelector("#${id}").displayChanged = true;
+          document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
           step
         ).replaceAll("\\", "\\\\")}');
-        document.querySelector("#${arrowId}").style.top = '${
+          document.querySelector("#${arrowId}").style.top = '${
           1.25 * (step[0].line - 1)
         }em';
         </script>
         <script data-on-hide type="text/template">
+          document.querySelector("#${id}").displayChanged = false;
           document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
           steps[i]
         ).replaceAll("\\", "\\\\")}');
@@ -103,6 +107,7 @@ async function codeExecutionVisualization(rustCode: string): Promise<string> {
           document.querySelector("#${id}").frames = [];
         </script>
         <script data-on-hide type="text/template">
+          document.querySelector("#${id}").displayChanged = false;
           document.querySelector("#${arrowId}").style.display = "block";
           document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
     steps[steps.length - 1]
@@ -191,10 +196,18 @@ async function executeAndDebugProgram(cratePath: string): Promise<Step[]> {
       for (const varName of variablesNames) {
         const typeMatches = await runAndExpect(
           rustGdb,
-          `ptype ${varName}`,
+          `whatis ${varName}`,
           /[^=]* = (.*)/gm
         );
         const type = typeMatches[0][1];
+
+        const addressMatches = await runAndExpect(
+          rustGdb,
+          `print &${varName}`,
+          /^[^=]* = .+ 0x(.+)$/gm
+        );
+        const address = `0x${addressMatches[0][1]}`;
+
         const printMatches = await runAndExpect(
           rustGdb,
           `print ${varName}`,
@@ -204,6 +217,7 @@ async function executeAndDebugProgram(cratePath: string): Promise<Step[]> {
         const value = printMatches[0][1];
 
         variables[varName] = {
+          address,
           type,
           value,
         };

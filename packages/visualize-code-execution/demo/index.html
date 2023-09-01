@@ -64,14 +64,18 @@ let user_age = 3.0; // Type is inferred if ommitted based on the literal
 user_age = 4.0; // Error, immutable by default
 
 let s1 = String::from("al");
+let s2 = s1;
 
 let mut mutable_age = 5; // Set as mutable
 mutable_age = 6; // Works
-s(mutable_age, mutable_age);
-
+s(s2);
+let u: u32 = 4;
+ii(u);
+ii(u);
 mutable_age = "seven"; // Error: Strict typing: cannot assign a value of another typing
 
-fn s(i: u32, u: u32) {}
+fn s(s: String) {}
+fn ii(i: u32) {}
 mutable_age = 6; // Works
 </code></pre>
         </section>

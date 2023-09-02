@@ -162,7 +162,7 @@ export class RustExecutionVisualizer extends LitElement {
               >
                 ${variablecontent.value.match(/^\"\\2/gm)
                   ? "[CONSUMED]"
-                  : variablecontent.value}
+                  : removeImportsFromRustType(variablecontent.value)}
               </td>
             </tr>
           `

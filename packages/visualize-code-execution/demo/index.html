@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -45,38 +45,17 @@
           <h3>Declaration of Variables</h3>
 
           <pre><code class="rust" data-visualize-execution data-trim data-noescape>
-use std::collections::HashMap;
+pub struct User {
+  name: String
+}
 
-let mut map: HashMap&lt;String, String&gt; = HashMap::new();
+let mut u = User {
+  name: String::from("asdf")
+};
 
-map.insert(String::from("adsf"), String::from("asdf2"));
+u.name = String::from("ASDF");
 
-let user_age: f32 = 1.0; // Declare with "let", in snake case
-
-let user_age: f32 = 2.0; // Redeclaration
-
-let user_age = 3.0; // Type is inferred if ommitted based on the literal
-                    // - Default types: 
-                    //   - Positive integers: u32
-                    //   - Negative integers: i32
-                    //   - Floats: f64
-
-user_age = 4.0; // Error, immutable by default
-
-let s1 = String::from("al");
-let s2 = s1;
-
-let mut mutable_age = 5; // Set as mutable
-mutable_age = 6; // Works
-s(s2);
-let u: u32 = 4;
-ii(u);
-ii(u);
-mutable_age = "seven"; // Error: Strict typing: cannot assign a value of another typing
-
-fn s(s: String) {}
-fn ii(i: u32) {}
-mutable_age = 6; // Works
+println!("{}", u.name);
 </code></pre>
         </section>
       </div>

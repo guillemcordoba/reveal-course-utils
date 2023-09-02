@@ -22,13 +22,18 @@ export async function visualizeCodeExecution(html: string): Promise<string> {
 }
 
 function cleanUpCode(code: string): string {
+  if (code.startsWith("\n")) {
+    code = code.slice(1);
+  }
   if (!code.match(/fn main\(\)/gm)) {
-    code = `fn main() {${code}
-      }`;
+    code = `fn main() {
+${code}
+}`;
   }
 
   code = code.replaceAll(/^.*?\/\/ Error.*?$/gm, "");
   code = code.replaceAll(/&lt;/gm, "<");
+  code = code.replaceAll(/&amp;/gm, "&");
   code = code.replaceAll(/&gt;/gm, ">");
 
   return code;
@@ -58,19 +63,19 @@ async function codeExecutionVisualization(rustCode: string): Promise<string> {
 
       <script-fragment>
         <script type="text/template">
-        document.querySelector("#${id}").displayChanged = true;
-        document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
+          document.querySelector("#${id}").displayChanged = true;
+          document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
     steps[0]
   ).replaceAll("\\", "\\\\")}');
-        document.querySelector("#${arrowId}").style.display = "block";
-        document.querySelector("#${arrowId}").style.top = '${
+          document.querySelector("#${arrowId}").style.display = "block";
+          document.querySelector("#${arrowId}").style.top = '${
     1.25 * (steps[0][0].line - 1)
   }em';
         </script>
         <script data-on-hide type="text/template">
-        document.querySelector("#${id}").displayChanged = false;
-        document.querySelector("#${id}").frames = [];
-        document.querySelector("#${arrowId}").style.display = "none";
+          document.querySelector("#${id}").displayChanged = false;
+          document.querySelector("#${id}").frames = [];
+          document.querySelector("#${arrowId}").style.display = "none";
         </script>
       </script-fragment>
     ${steps
@@ -208,9 +213,14 @@ async function executeAndDebugProgram(cratePath: string): Promise<Step[]> {
         );
         const address = `0x${addressMatches[0][1]}`;
 
+        const isReference = type.includes("*mut");
+        const getValueCommand = isReference
+          ? `print *${varName}`
+          : `print ${varName}`;
+
         const printMatches = await runAndExpect(
           rustGdb,
-          `print ${varName}`,
+          getValueCommand,
           /[^=]* = (.*)$/gm
         );
 

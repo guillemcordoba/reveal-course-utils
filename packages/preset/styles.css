@@ -116,3 +116,7 @@ simple-popover ul {
   border-color: rgb(209, 209, 209);
   border-style: solid;
 }
+
+.reveal .slides section .fragment.strike.visible {
+  color: #75715e;
+}

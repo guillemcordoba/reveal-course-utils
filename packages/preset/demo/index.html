@@ -101,7 +101,7 @@
           <h3>Declaration of Variables</h3>
 
           <fragment>
-            <pre><code class="rust" data-trim data-noescape animate="by-line with-ancestry balanced separate-comments trailing-comments-in-popover">
+            <pre><code class="rust" data-trim data-noescape animate="by-line with-ancestry balanced separate-comments trailing-comments-in-popover strike-on-error-in-comment">
 let user_age: f32 = 1.0; // Declare with "let", in snake case
 
 let user_age: f32 = 2.0; // Redeclaration
@@ -117,7 +117,7 @@ user_age = 4.0; // Error, immutable by default
 let mut mutable_age = 5; // Set as mutable
 mutable_age = 6; // Works
 
-<span class="fragment strike">mutable_age = “seven”;</span> //Strict typing: cannot assign a value of another typing
+mutable_age = “seven”; // Error strict typing: cannot assign a value of another typing
 </code></pre>
           </fragment>
         </section>

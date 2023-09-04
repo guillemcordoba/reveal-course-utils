@@ -78,17 +78,24 @@
       <div class="slides">
         <section>
           <span class="fragment">asdf</span>
-          <fragment-script> console.log('hi'); </fragment-script>
+          <script-fragment>
+            <script data-on-show type="text/template">
+              console.log('This will print when this fragment is shown');
+            </script>
+            <script data-on-hide type="text/template">
+              console.log('This will print when this fragment is hidden');
+            </script>
+          </script-fragment>
         </section>
       </div>
     </div>
     <script type="module">
-      import RevealFragmentScript from "../src/index.js";
+      import RevealScriptFragment from "../src/index.js";
 
       import Reveal from "reveal.js";
 
       let deck = new Reveal({
-        plugins: [RevealFragmentScript],
+        plugins: [RevealScriptFragment],
 
         center: false,
         transition: "none",

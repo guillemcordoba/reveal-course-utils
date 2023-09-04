@@ -6,9 +6,12 @@ export default () => ({
     const fragmentScripts = document.querySelectorAll("script-fragment");
 
     for (const element of fragmentScripts) {
-      const js = element.innerHTML
-        .replaceAll("&gt;", ">")
-        .replaceAll("&lt;", "<");
+      const scriptOnShow = element.querySelector("script[data-on-show]");
+      const jsOnShow = scriptOnShow?.innerHTML;
+
+      const scriptOnHide = element.querySelector("script[data-on-hide]");
+      const jsOnHide = scriptOnHide?.innerHTML;
+
       const span = document.createElement("span");
       span.setAttribute("class", "fragment");
       const id = uuidv4();
@@ -16,11 +19,21 @@ export default () => ({
 
       element.innerHTML = "";
       element.appendChild(span);
-      deck.on("fragmentshown", (event) => {
-        if (event.fragment.id === id) {
-          eval(js);
-        }
-      });
+      if (scriptOnShow) {
+        deck.on("fragmentshown", (event) => {
+          if (event.fragment.id === id) {
+            eval(jsOnShow);
+          }
+        });
+      }
+
+      if (scriptOnHide) {
+        deck.on("fragmenthidden", (event) => {
+          if (event.fragment.id === id) {
+            eval(jsOnHide);
+          }
+        });
+      }
     }
   },
 });

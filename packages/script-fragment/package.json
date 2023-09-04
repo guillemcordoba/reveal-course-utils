@@ -1,8 +1,8 @@
 {
   "name": "reveal.js-script-fragment",
-  "description": "Webcomponent reveal.js-animate following open-wc recommendations",
+  "description": "reveal.js plugin to execute a Javascript script as a fragment",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "main": "src/index.js",
   "module": "src/index.js",
   "scripts": {

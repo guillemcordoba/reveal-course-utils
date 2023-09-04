@@ -1,71 +1,54 @@
-# @holochain-open-dev/elements
+# @mythosthesia/reveal-course-preset
 
-Common elements and element related utilities to build Holochain web applications.
+Preset that includes everything that the mythosthesia reveal.js slides need.
 
-## Elements
+## Install
 
-### HoloIdenticon
+```bash
+npm install @mythosthesia/reveal-course-preset
+```
 
-Import it like this:
+## Usage
+
+1. Set your `rollup.config.js` to:
 
 ```js
-import "@holochain-open-dev/elements/dist/elements/holo-identicon.js";
+import { rollupConfig } from "@mythosthesia/reveal-course-preset/rollup.preset.js";
+
+export default rollupConfig("rust-lesson-1");
 ```
 
-And then you can use it like this in your html:
+2. Add these links to your `<head>`:
 
 ```html
-<holo-identicon
-  hash="uhCEkBsnnW9JSVhGQx4AE2m0lSlWLrioEHP-7Uj4ZnbI0W-M"
-></holo-identicon>
+<link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" />
+<link
+  rel="stylesheet"
+  href="/node_modules/reveal.js/dist/theme/black.css"
+/>
+<link
+  rel="stylesheet"
+  href="/node_modules/reveal.js/plugin/highlight/monokai.css"
+/>
+<link rel="stylesheet" href="/node_modules/@mythosthesia/reveal-course-preset/styles.css" />
 ```
 
-### DisplayError
-
-Import it like this:
-
-```js
-import "@holochain-open-dev/elements/dist/elements/display-error.js";
-```
-
-And then you can use it like this in your html:
+3. Set your `reveal.js` config to:
 
 ```html
-<display-error headline="Error fetching data" error="500"></display-error>
+<script type="module">
+  import Reveal from "reveal.js";
+  import { plugins, config } from "@mythosthesia/reveal-course-preset";
+
+  let deck = new Reveal();
+  deck.initialize(config);
+</script>
 ```
 
-### SelectAvatar
+All set! Now you will be able to use all the features from these plugins:
 
-Import it like this:
-
-```js
-import "@holochain-open-dev/elements/dist/elements/select-avatar.js";
-```
-
-And then you can use it like this in your html:
-
-```html
-<select-avatar></select-avatar>
-```
-
-## Utils
-
-### wrapPathInSvg
-
-Function to convert paths from the [@mdi/js library](https://pictogrammers.com/library/mdi) to inline SVG sources.
-
-Example usage:
-
-```ts
-import { mdiAlertCircleOutline } from "@mdi/js";
-import { wrapPathInSvg } from '@holochain-open-dev/elements';
-
-function  renderIcon() {
-  return html`
-    <sl-icon
-      style="color: red; height: 64px; width: 64px;"
-      src="${wrapPathInSvg(mdiAlertCircleOutline)}"
-    ></sl-icon>
-  `;
-}
-```
+- [reveal.js-animate-fragments](https://npmjs.com/package/reveal.js-animate-fragments)
+- [reveal.js-script-fragment](https://npmjs.com/package/reveal.js-script-fragment)
+- [reveal.js-svg-timeline-fragment](https://npmjs.com/package/reveal.js-svg-timeline-fragment)
+- [@mythosthesia/visualize-rust-code-execution](https://npmjs.com/package/@mythosthesia/visualize-rust-code-execution)
+- [@mythosthesia/reveal-course-elements](https://npmjs.com/package/@mythosthesia/reveal-course-elements)

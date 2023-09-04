@@ -4,6 +4,31 @@
   "modules": [
     {
       "kind": "javascript-module",
+      "path": "rollup.preset.js",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "rollupConfig",
+          "parameters": [
+            {
+              "name": "publicPath"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "rollupConfig",
+          "declaration": {
+            "name": "rollupConfig",
+            "module": "rollup.preset.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/index.ts",
       "declarations": [
         {

@@ -71,7 +71,6 @@ async function codeExecutionVisualization(rustCode: string): Promise<string> {
       cwd: cratePath,
     });
     steps = await executeAndDebugProgram(cratePath);
-    return code;
     fs.writeFileSync(`${cratePath}/steps.json`, JSON.stringify(steps));
   }
 
@@ -111,11 +110,11 @@ async function codeExecutionVisualization(rustCode: string): Promise<string> {
           document.querySelector("#${arrowId}").style.display = "none";
 `
           : `document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
-              steps[i]
+              steps[i - 1]
             ).replaceAll("\\", "\\\\")}');
           document.querySelector("#${arrowId}").style.display = "block";        
           document.querySelector("#${arrowId}").style.top = '${
-              1.25 * (steps[i][0].line - 1)
+              1.25 * (steps[i - 1][0].line - 1)
             }em';`
       } 
         </script>
@@ -131,7 +130,6 @@ async function codeExecutionVisualization(rustCode: string): Promise<string> {
     if (stepLine > currentLine) {
       currentLine = stepLine;
     }
-
     lines[currentLine] = `${lines[currentLine]}${stepFragment(i).replaceAll(
       "\n",
       ""
@@ -198,7 +196,6 @@ async function executeAndDebugProgram(cratePath: string): Promise<Step[]> {
 
   await expect(rustGdb, "(gdb) ");
 
-  return [];
   for (const fnMatch of [...fnMatches]) {
     await runAndExpect(rustGdb, `break ${fnMatch[1]}`, /\(gdb\) $/gm, 3000);
   }

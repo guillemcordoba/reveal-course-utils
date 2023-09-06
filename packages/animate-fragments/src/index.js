@@ -120,7 +120,6 @@ export default () => ({
 
     const animateElements = document.querySelectorAll("[animate]");
 
-    console.log(animateElements);
     for (const animateElement of animateElements) {
       let html = animateElement.innerHTML
         .replace(/&amp;/gm, "&")
@@ -161,7 +160,6 @@ export default () => ({
             const lines = html.split("\n");
             for (let i = 0; i < lines.length; i++) {
               const line = removeFragmentSpan(lines[i]);
-              if (lines[i].includes("fragment-script")) console.log(line);
               if (
                 !line.match(/^.*?{$/gm) &&
                 !line.match(/^.*?{[^}:].*$/gm) &&
@@ -263,7 +261,9 @@ export default () => ({
             popoverContent.push(content);
           }
 
-          let markdown = marked.parse(popoverContent.join("\n").trim());
+          let markdown = marked.parse(
+            removeFragmentSpan(popoverContent.join("\n").trim())
+          );
 
           if (nodeHasAnimateValue(animateElement, "by-line")) {
             markdown = markdown.replace(
@@ -301,12 +301,12 @@ export default () => ({
 });
 
 function removeFragmentSpan(html) {
-  html = html.replace(/<span class="fragment[^>]*?>/gm, "");
-  html = html.replace(
+  html = html.replaceAll(/<span class="fragment[^>]*?>/gm, "");
+  html = html.replaceAll(
     /<svg-timeline-fragment[^>]*?>.*?<\/svg-timeline-fragment>/gm,
     ""
   );
-  html = html.replace(/<script-fragment[^>]*?>.*?<\/script-fragment>/gm, "");
-  html = html.replace(/<\/span>/gm, "");
+  html = html.replaceAll(/<script-fragment[^>]*?>.*?<\/script-fragment>/gm, "");
+  html = html.replaceAll(/<\/span>/gm, "");
   return html;
 }

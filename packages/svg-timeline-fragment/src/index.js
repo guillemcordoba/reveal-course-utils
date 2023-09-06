@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import * as SVG from "@svgdotjs/svg.js";
+import * as NSVG from "@svgdotjs/svg.js";
+window.SVG = NSVG.SVG;
 
 export default () => ({
   id: "svg-timeline-fragment",
@@ -10,9 +11,7 @@ export default () => ({
 
     for (let i = 0; i < svgTimelineFragments.length; i++) {
       const element = svgTimelineFragments[i];
-      const js = element.innerHTML
-        .replaceAll("&gt;", ">")
-        .replaceAll("&lt;", "<");
+      const js = element.firstElementChild.innerHTML;
       const span = document.createElement("span");
       span.setAttribute("class", "fragment");
       const id = `svg-timeline-fragment-${uuidv4()}`;
@@ -21,34 +20,31 @@ export default () => ({
       element.innerHTML = "";
       element.appendChild(span);
 
-      const originalFn = SVG.Element.timeline;
+      const originalFn = NSVG.Element.timeline;
       let timeline = undefined;
+
+      timeline = new NSVG.Timeline();
+      timeline.persist(true);
+
+      NSVG.extend(NSVG.Element, {
+        timeline: function () {
+          return timeline;
+        },
+      });
+      eval(js);
+      NSVG.extend(NSVG.Element, {
+        timeline: originalFn,
+      });
+      timeline.pause();
 
       deck.on("fragmentshown", (event) => {
         if (event.fragment.id === id) {
-          timeline = new SVG.Timeline();
-          timeline.persist(true);
-
-          SVG.extend(SVG.Element, {
-            timeline: function () {
-              return timeline;
-            },
-          });
-          eval(js);
-          SVG.extend(SVG.Element, {
-            timeline: originalFn,
-          });
+          timeline.reverse(false).play();
         }
       });
       deck.on("fragmenthidden", (event) => {
         if (event.fragment.id === id) {
-          SVG.extend(SVG.Element, {
-            timeline: function () {
-              return timeline;
-            },
-          });
-          eval(js);
-          timeline.reverse();
+          timeline.reverse().play();
         }
       });
       deck.on("slidechanged", (event) => {
@@ -59,32 +55,12 @@ export default () => ({
         if (section === previousSlide) {
           const movingForward = previousSlide.classList.contains("past");
           if (movingForward) {
-            // finish
-            timeline = new SVG.Timeline();
-            timeline.persist(true);
-
-            SVG.extend(SVG.Element, {
-              timeline: function () {
-                return timeline;
-              },
-            });
-            eval(js);
-            timeline.finish();
-            SVG.extend(SVG.Element, {
-              timeline: originalFn,
-            });
+            timeline.reverse(false).finish();
           } else {
             if (timeline) {
               // We have this setTimeout to have the animations play in the reverse order
               // from the one in the index.html
               setTimeout(() => {
-                // stop
-                SVG.extend(SVG.Element, {
-                  timeline: function () {
-                    return timeline;
-                  },
-                });
-                eval(js);
                 timeline.stop();
               }, svgTimelineFragments.length - i);
             }

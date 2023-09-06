@@ -1,12 +1,16 @@
 {
   "name": "reveal.js-svg-timeline-fragment",
-  "description": "Webcomponent reveal.js-animate following open-wc recommendations",
+  "description": "reveal.js plugin to add svg.js timelines as fragments",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "0.1.2",
   "main": "src/index.js",
   "module": "src/index.js",
   "scripts": {
     "start": "vite --open"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./include-svgs.vite-plugin.js": "./include-svgs.vite-plugin.js"
   },
   "dependencies": {
     "@svgdotjs/svg.js": "^3.2.0",
@@ -16,5 +20,6 @@
     "vite": "^4.2.0",
     "vite-plugin-checker": "^0.5.5"
   },
+  "type": "module",
   "customElements": "custom-elements.json"
 }

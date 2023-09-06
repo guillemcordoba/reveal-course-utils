@@ -71,6 +71,7 @@ async function codeExecutionVisualization(rustCode: string): Promise<string> {
       cwd: cratePath,
     });
     steps = await executeAndDebugProgram(cratePath);
+    return code;
     fs.writeFileSync(`${cratePath}/steps.json`, JSON.stringify(steps));
   }
 
@@ -197,6 +198,7 @@ async function executeAndDebugProgram(cratePath: string): Promise<Step[]> {
 
   await expect(rustGdb, "(gdb) ");
 
+  return [];
   for (const fnMatch of [...fnMatches]) {
     await runAndExpect(rustGdb, `break ${fnMatch[1]}`, /\(gdb\) $/gm, 3000);
   }

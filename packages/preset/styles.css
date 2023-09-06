@@ -13,7 +13,7 @@ svg * {
   font-size: var(--r-main-font-size) !important;
 }
 
-code {
+pre code {
   font-size: 1.25em !important;
   line-height: 1em;
   padding: 20px;

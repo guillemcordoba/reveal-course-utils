@@ -1,4 +1,4 @@
-# reveal.js-animate-fragments
+# reveal.js-script-fragment
 
 A [Reveal.js](https://revealjs.com/) plugin to execute a Javascript script as a fragment.
 

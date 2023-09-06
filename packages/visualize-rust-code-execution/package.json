@@ -1,13 +1,11 @@
 {
   "name": "@mythosthesia/visualize-rust-code-execution",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Vite plugin that adds call-stack visualizations to rust code in reveal.js slides",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "publishConfig": {
     "access": "public"
   },
@@ -17,7 +15,8 @@
   },
   "scripts": {
     "start": "npm run build && vite demo --open",
-    "build": "tsc"
+    "build": "tsc",
+    "build:watch": "tsc -w"
   },
   "devDependencies": {
     "reveal.js": "=4.3.0",
@@ -30,6 +29,7 @@
   "license": "ISC",
   "dependencies": {
     "@lit-labs/motion": "^1.0.4",
+    "@mdi/js": "^7.2.96",
     "js-sha256": "^0.10.1",
     "lit": "^2.8.0",
     "reveal.js-animate-fragments": "^0.1.0",

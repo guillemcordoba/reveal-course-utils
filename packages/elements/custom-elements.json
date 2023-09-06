@@ -10,6 +10,147 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/elements/directory-tree.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "wrapPathInSvg",
+          "parameters": [
+            {
+              "name": "path",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "description": "",
+          "name": "DirectoryTreeEl",
+          "members": [
+            {
+              "kind": "field",
+              "name": "tree",
+              "type": {
+                "text": "DirectoryTree"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "displayCode",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "kind": "field",
+              "name": "highlightedPaths",
+              "type": {
+                "text": "Array<string>"
+              },
+              "default": "[]"
+            },
+            {
+              "kind": "method",
+              "name": "createRenderRoot"
+            },
+            {
+              "kind": "method",
+              "name": "renderFile",
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "content",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "last",
+                  "type": {
+                    "text": "boolean"
+                  }
+                },
+                {
+                  "name": "path",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderDirectory",
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "last",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderTreeContents",
+              "parameters": [
+                {
+                  "name": "contents",
+                  "type": {
+                    "text": "DirectoryContents"
+                  }
+                },
+                {
+                  "name": "currentPath",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "wrapPathInSvg",
+          "declaration": {
+            "name": "wrapPathInSvg",
+            "module": "src/elements/directory-tree.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DirectoryTreeEl",
+          "declaration": {
+            "name": "DirectoryTreeEl",
+            "module": "src/elements/directory-tree.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/elements/simple-popover.ts",
       "declarations": [
         {

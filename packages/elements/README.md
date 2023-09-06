@@ -1,71 +1,59 @@
-# @holochain-open-dev/elements
+# @mythosthesia/reveal-course-elements
 
-Common elements and element related utilities to build Holochain web applications.
+Common elements and element related utilities to build reveal.js slides in the style of Mythosthesia.
 
 ## Elements
 
-### HoloIdenticon
+### SimplePopover
 
 Import it like this:
 
 ```js
-import "@holochain-open-dev/elements/dist/elements/holo-identicon.js";
+import "@mythosthesia/reveal-course-elements/dist/elements/simple-popover.js";
 ```
 
 And then you can use it like this in your html:
 
 ```html
-<holo-identicon
-  hash="uhCEkBsnnW9JSVhGQx4AE2m0lSlWLrioEHP-7Uj4ZnbI0W-M"
-></holo-identicon>
+<simple-popover><span>Add your popover content here</span></simple-popover>
 ```
 
-### DisplayError
+### DirectoryTree
 
 Import it like this:
 
 ```js
-import "@holochain-open-dev/elements/dist/elements/display-error.js";
+import "@mythosthesia/reveal-course-elements/dist/elements/directory-tree.js";
 ```
 
 And then you can use it like this in your html:
 
 ```html
-<display-error headline="Error fetching data" error="500"></display-error>
-```
+<directory-tree></directory-tree>
+<script>
+  const directoryTreeElement = document.querySelector('directory-tree');
 
-### SelectAvatar
+  // Sets the tree to show 
+  directoryTreeElement.tree = {
+    type: 'directory',
+    contents: {
+      src: {
+        type: 'directory',
+        contents: {
+          'main.rs': {
+            type: 'file',
+            content: `fn main() {}`
+          }
+        }
+      },
+      'Cargo.toml': {
+        type: 'file',
+        content: `[package]`
+      }
+    }
+  };
 
-Import it like this:
-
-```js
-import "@holochain-open-dev/elements/dist/elements/select-avatar.js";
-```
-
-And then you can use it like this in your html:
-
-```html
-<select-avatar></select-avatar>
-```
-
-## Utils
-
-### wrapPathInSvg
-
-Function to convert paths from the [@mdi/js library](https://pictogrammers.com/library/mdi) to inline SVG sources.
-
-Example usage:
-
-```ts
-import { mdiAlertCircleOutline } from "@mdi/js";
-import { wrapPathInSvg } from '@holochain-open-dev/elements';
-
-function  renderIcon() {
-  return html`
-    <sl-icon
-      style="color: red; height: 64px; width: 64px;"
-      src="${wrapPathInSvg(mdiAlertCircleOutline)}"
-    ></sl-icon>
-  `;
-}
+  // Adds a highlight border to the given paths
+  directoryTreeElement.highlightedPaths = ['/src/main.rs'];
+</script>
 ```

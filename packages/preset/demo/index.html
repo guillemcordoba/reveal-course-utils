@@ -10,19 +10,13 @@
     <base href="/" />
 
     <title>Lesson 1</title>
-    <link
-      rel="stylesheet"
-      href="../../../node_modules/reveal.js/dist/reveal.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../../../node_modules/reveal.js/dist/theme/black.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../../../node_modules/reveal.js/plugin/highlight/monokai.css"
-    />
-    <link rel="stylesheet" href="../styles.css" />
+
+    <script type="module">
+      import "reveal.js/dist/reveal.css";
+      import "reveal.js/dist/theme/black.css";
+      import "reveal.js/plugin/highlight/monokai.css";
+      import "../styles.css";
+    </script>
   </head>
 
   <script type="module"></script>
@@ -32,6 +26,13 @@
       <div class="slides">
         <section>
           <h1>Rust Language Fundamentals</h1>
+          <div class="mermaid">
+            <pre>
+graph TD;
+  A-->B;
+</pre
+            >
+          </div>
 
           <svg
             id="svg"

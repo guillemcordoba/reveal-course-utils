@@ -10,27 +10,27 @@ npm install @mythosthesia/reveal-course-preset
 
 ## Usage
 
-1. Set your `rollup.config.js` to:
+1. Set your `vite.config.js` to:
 
 ```js
-import { rollupConfig } from "@mythosthesia/reveal-course-preset/rollup.preset.js";
+import { defineConfig } from "vite";
+import { vitePlugins } from "@mythosthesia/reveal-course-preset/vite-plugins.js";
 
-export default rollupConfig("rust-lesson-1");
+export default defineConfig({
+  base: 'rust-lesson-1',
+  plugins: vitePlugins,
+});
 ```
 
 2. Add these links to your `<head>`:
 
 ```html
-<link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" />
-<link
-  rel="stylesheet"
-  href="/node_modules/reveal.js/dist/theme/black.css"
-/>
-<link
-  rel="stylesheet"
-  href="/node_modules/reveal.js/plugin/highlight/monokai.css"
-/>
-<link rel="stylesheet" href="/node_modules/@mythosthesia/reveal-course-preset/styles.css" />
+<script type="module">
+  import "reveal.js/dist/reveal.css";
+  import "reveal.js/dist/theme/black.css";
+  import "reveal.js/plugin/highlight/monokai.css";
+  import "@mythosthesia/reveal-course-preset/styles.css";
+</script>
 ```
 
 3. Set your `reveal.js` config to:
@@ -50,5 +50,6 @@ All set! Now you will be able to use all the features from these plugins:
 - [reveal.js-animate-fragments](https://npmjs.com/package/reveal.js-animate-fragments)
 - [reveal.js-script-fragment](https://npmjs.com/package/reveal.js-script-fragment)
 - [reveal.js-svg-timeline-fragment](https://npmjs.com/package/reveal.js-svg-timeline-fragment)
+- [reveal.js-mermaid-plugin](https://npmjs.com/package/reveal.js-mermaid-plugin)
 - [@mythosthesia/visualize-rust-code-execution](https://npmjs.com/package/@mythosthesia/visualize-rust-code-execution)
 - [@mythosthesia/reveal-course-elements](https://npmjs.com/package/@mythosthesia/reveal-course-elements)

@@ -1,18 +1,18 @@
 {
   "name": "reveal.js-animate-fragments",
-  "description": "Webcomponent reveal.js-animate following open-wc recommendations",
+  "description": "reveal.js plugin to automatically animate code and markdown",
   "license": "MIT",
-  "author": "reveal.js-animate",
-  "version": "0.0.13",
+  "author": "guillem.cordoba@gmail.com",
+  "version": "0.1.1",
   "main": "src/index.js",
   "module": "src/index.js",
   "scripts": {
     "start": "vite --open"
   },
   "dependencies": {
+    "@mythosthesia/reveal-course-elements": "^0.1.0",
     "marked": "^4.0.18",
-    "reveal.js": "=4.3.0",
-    "reveal-course-elements": "file:../elements"
+    "reveal.js": "=4.3.0"
   },
   "devDependencies": {
     "vite": "^4.2.0",

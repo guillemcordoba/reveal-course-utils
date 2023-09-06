@@ -41,16 +41,18 @@ Animate options:
 
 - `with-ancestry`: all parent fragemnts are also visible.
 
+- `strike-on-error-in-comment`: if a trailing comment starts with `// Error`, consider the line of code where the comment is placed an error, and add a strike fragment animation to that line of code.
+
 ```html
-<section animate="by-line balanced separate-comments trailing-comments-in-popover with-ancestry">
-<pre>
-<code class="rust">
+<section animate="by-line balanced separate-comments trailing-comments-in-popover with-ancestry strike-on-error-in-comment">
+<pre><code class="rust">
 struct Person {
   name: String, // Comment!
   age: u32
 }
-</code>
-</pre>
+let immutable_var = 1;
+immutable_var = 2; // Error
+</code></pre>
 </section>
 
 <section language="markdown" animate="by-line with-ancestry">

@@ -1,5 +1,5 @@
 import { marked } from "marked";
-import "reveal-course-elements/dist/elements/simple-popover.js";
+import "@mythosthesia/reveal-course-elements/dist/elements/simple-popover.js";
 
 function nodeHasLanguageValue(node, value) {
   return (
@@ -120,6 +120,7 @@ export default () => ({
 
     const animateElements = document.querySelectorAll("[animate]");
 
+    console.log(animateElements);
     for (const animateElement of animateElements) {
       let html = animateElement.innerHTML
         .replace(/&amp;/gm, "&")
@@ -300,13 +301,12 @@ export default () => ({
 });
 
 function removeFragmentSpan(html) {
-  html = html.replace("<fragment-script>", "");
-  html = html.replace("</fragment-script>", "");
   html = html.replace(/<span class="fragment[^>]*?>/gm, "");
   html = html.replace(
     /<svg-timeline-fragment[^>]*?>.*?<\/svg-timeline-fragment>/gm,
     ""
   );
+  html = html.replace(/<script-fragment[^>]*?>.*?<\/script-fragment>/gm, "");
   html = html.replace(/<\/span>/gm, "");
   return html;
 }

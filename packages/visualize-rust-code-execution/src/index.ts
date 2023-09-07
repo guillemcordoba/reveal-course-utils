@@ -204,6 +204,9 @@ async function executeAndDebugProgram(cratePath: string): Promise<Step[]> {
 
   const steps: Step[] = [];
 
+  const functionInvocations: Record<string, number> = {};
+  const currentStack = [];
+
   while (true) {
     const frameMatches = await runAndExpect(
       rustGdb,
@@ -271,12 +274,33 @@ async function executeAndDebugProgram(cratePath: string): Promise<Step[]> {
         };
       }
 
+      const fnName = match[2];
+
+      if (i === 0) {
+        if (frameMatches.length > currentStack.length) {
+          // New function being execution
+          if (!functionInvocations[fnName]) {
+            functionInvocations[fnName] = 0;
+          }
+          functionInvocations[fnName]++;
+
+          currentStack.unshift({
+            fnName,
+            functionInvocation: functionInvocations[fnName],
+          });
+        } else if (frameMatches.length < currentStack.length) {
+          // Function finished executing
+          currentStack.shift();
+        }
+      }
+
       frames.push({
-        fn_name: match[2],
+        fn_name: `${fnName}() nº${currentStack[i].functionInvocation}`,
         line: parseInt(match[5]),
         variables,
       });
     }
+
     steps.push(frames);
 
     try {

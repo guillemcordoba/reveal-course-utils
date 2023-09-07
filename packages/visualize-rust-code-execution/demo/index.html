@@ -40,9 +40,15 @@
         <section>
           <pre><code class="rust" data-visualize-execution data-trim data-noescape
 animate="by-line balanced with-ancestry separate-comments trailing-comments-in-popover strike-on-error-in-comment">
+fn rec(i: u32) {
+  if i &gt; 0 {
+    rec(i-1);
+  }
+}
+rec(3);
+rec(2);
+
 for i in 0..2 {
-  println!("{}", i);
-  println!("{}", i);
   println!("{}", i);
 }
 

@@ -80,9 +80,15 @@
           <!-- todo: consolidate this example and the parameter type inference into one visual -->
           <pre><code class="rust" data-trim data-noescape animate="by-line balanced with-ancestry separate-comments trailing-comments-in-popover strike-on-error-in-comment"
 >
+fn rec(i: u32) {
+  if i &gt; 0 {
+    rec(i-1);
+  }
+}
 // Here's a simple function (not a closure), which we will use 
 // as the closure's containing scope environment
 fn sample() {
+
   let heavy_weight = 100;
   
   let is_heavy_closure = |weight: u32| { // A closure resembles a function, 

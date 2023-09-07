@@ -14,19 +14,10 @@
     "./dist/*": "./dist/*"
   },
   "scripts": {
-    "start": "npm run build && vite demo --open",
+    "start": "concurrently \"npm run build:watch\" \"vite demo --open\"",
     "build": "tsc",
-    "build:watch": "tsc -w"
+    "build:watch": "tsc -w --preserveWatchOutput"
   },
-  "devDependencies": {
-    "reveal.js": "=4.3.0",
-    "typescript": "^5.2.2",
-    "vite": "^4.2.0"
-  },
-  "type": "module",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@lit-labs/motion": "^1.0.4",
     "@mdi/js": "^7.2.96",
@@ -35,5 +26,15 @@
     "reveal.js-animate-fragments": "^0.1.0",
     "reveal.js-script-fragment": "^0.1.0",
     "uuid": "^9.0.0"
-  }
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.1",
+    "reveal.js": "=4.3.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.2.0"
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

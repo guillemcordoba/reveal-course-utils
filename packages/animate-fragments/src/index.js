@@ -126,33 +126,34 @@ export default () => ({
         .replace(/&lt;/gm, "<")
         .replace(/&gt;/gm, ">");
       if (nodeHasAnimateValue(animateElement, "strike-on-error-in-comment")) {
-        html = html.replace(
+        html = html.replaceAll(
           /^(\s*)(.*?)(\s*)\/\/ Error/gm,
           '$1<span class="fragment strike">$2</span>$3// Error'
         );
       }
       if (nodeHasAnimateValue(animateElement, "balanced")) {
-        html = html.replace(
-          /^(.*){([^}:])(.*)$/gm,
-          '<span class="fragment fade-in">$1{$2$3'
+        html = html.replaceAll(
+          /^(.*){([^}:])/gm,
+          '<span class="fragment fade-in">$1{$2'
         );
-        html = html.replace(/([^{?])}(.*)$/gm, "$1}$2</span>");
+        html = html.replaceAll(/([^{?])}(.*)$/gm, "$1}$2</span>");
+        console.log(html);
       }
       if (nodeHasAnimateValue(animateElement, "by-line")) {
         if (nodeHasLanguageValue(animateElement, "markdown")) {
-          html = html.replace(
+          html = html.replaceAll(
             /<li>/gm,
             '<li class="fragment fade-in-then-semi-out">'
           );
-          html = html.replace(
+          html = html.replaceAll(
             /<h4([^>]*)*>/gm,
             '<h4 $1 class="fragment fade-in">'
           );
-          html = html.replace(
+          html = html.replaceAll(
             /<h3([^>]*)*>/gm,
             '<h3 $1 class="fragment fade-in">'
           );
-          html = html.replace(/<h2>/gm, '<h2 class="fragment fade-in">');
+          html = html.replaceAll(/<h2>/gm, '<h2 class="fragment fade-in">');
         } else {
           if (
             nodeHasAnimateValue(animateElement, "trailing-comments-in-popover")

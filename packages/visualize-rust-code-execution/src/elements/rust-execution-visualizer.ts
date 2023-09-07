@@ -2,11 +2,9 @@ import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import { repeat } from "lit/directives/repeat.js";
-import { animate, fadeIn, fadeOut, flyAbove } from "@lit-labs/motion";
+import { animate, fadeIn, fadeOut } from "@lit-labs/motion";
 
 import { Frame } from "../types.js";
-
-const colors = ["blue", "red", "green", "yellow"];
 
 function removeImportsFromRustType(rustType: string): string {
   return rustType.replaceAll(/([a-zA-Z_]+::)*/gm, "");

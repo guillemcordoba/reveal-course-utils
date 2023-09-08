@@ -5,6 +5,7 @@ import { repeat } from "lit/directives/repeat.js";
 import { animate, fadeIn, fadeOut } from "@lit-labs/motion";
 
 import { Frame } from "../types.js";
+import { VariablesChanged } from "../utils.js";
 
 function removeImportsFromRustType(rustType: string): string {
   return rustType.replaceAll(/([a-zA-Z_]+::)*/gm, "");
@@ -13,87 +14,13 @@ function removeImportsFromRustType(rustType: string): string {
 @customElement("rust-execution-visualizer")
 export class RustExecutionVisualizer extends LitElement {
   @property()
-  displayChanged = true;
-
-  _changed: Record<
-    string,
-    {
-      newFrame: boolean;
-      variables: Record<
-        string,
-        {
-          name: boolean;
-          type: boolean;
-          value: boolean;
-        }
-      >;
-    }
-  > = {}; // Segmented by frame name, variable name
-
-  _frames: Array<Frame> = [];
-  get frames() {
-    return this._frames;
-  }
+  highlightType: "yellow-box" | "red-background" = "yellow-box"; // Segmented by frame name, variable name
 
   @property()
-  set frames(f: Array<Frame>) {
-    const oldFrames = this._frames;
+  changed: VariablesChanged = {}; // Segmented by frame name, variable name
 
-    this._changed = {};
-
-    for (const newFrame of f) {
-      this._changed[newFrame.fn_name] = {
-        newFrame: false,
-        variables: {},
-      };
-      const oldFrame = oldFrames.find(
-        (oldFrame) => oldFrame.fn_name === newFrame.fn_name
-      );
-      if (!oldFrame) {
-        // This frame is new
-        this._changed[newFrame.fn_name].newFrame = true;
-      } else {
-        // Frame is the same
-        for (const [newVarName, newVarContents] of Object.entries(
-          newFrame.variables
-        )) {
-          const oldVariableContent = oldFrame.variables[newVarName];
-          if (oldVariableContent) {
-            if (oldVariableContent.address !== newVarContents.address) {
-              // This is a new variable
-              this._changed[newFrame.fn_name].variables[newVarName] = {
-                name: true,
-                type: true,
-                value: true,
-              };
-            } else {
-              const typeChanged =
-                oldVariableContent.type !== newVarContents.type;
-              const valueChanged =
-                oldVariableContent.value !== newVarContents.value;
-
-              this._changed[newFrame.fn_name].variables[newVarName] = {
-                name: false,
-                type: typeChanged,
-                value: valueChanged,
-              };
-            }
-          } else {
-            // This is a new variable
-            this._changed[newFrame.fn_name].variables[newVarName] = {
-              name: true,
-              type: true,
-              value: true,
-            };
-          }
-        }
-      }
-    }
-
-    this._frames = f;
-
-    this.requestUpdate();
-  }
+  @property()
+  frames: Array<Frame> = [];
 
   renderFrame(frame: Frame) {
     return html`
@@ -105,7 +32,9 @@ export class RustExecutionVisualizer extends LitElement {
           properties: ["opacity", "top", "background"],
         })}
         class=${classMap({
-          "changed-table": this._changed[frame.fn_name].newFrame,
+          "changed-table": this.changed[frame.fn_name]?.newFrame,
+          "yellow-highlight": this.highlightType === "yellow-box",
+          "red-highlight": this.highlightType === "red-background",
         })}
       >
         <caption>
@@ -129,7 +58,7 @@ export class RustExecutionVisualizer extends LitElement {
                 width="102px"
                 style="border-right: 1px solid #ddd;"
                 class=${classMap({
-                  changed: this._changed[frame.fn_name].variables[name]?.name,
+                  changed: this.changed[frame.fn_name]?.variables[name]?.name,
                 })}
                 ${animate({
                   properties: ["background"],
@@ -140,7 +69,7 @@ export class RustExecutionVisualizer extends LitElement {
               <td
                 style="border-right: 1px solid #ddd;"
                 class=${classMap({
-                  changed: this._changed[frame.fn_name].variables[name]?.type,
+                  changed: this.changed[frame.fn_name]?.variables[name]?.type,
                 })}
                 ${animate({
                   properties: ["background"],
@@ -152,7 +81,7 @@ export class RustExecutionVisualizer extends LitElement {
                 style="text-align: center;"
                 width="160px"
                 class=${classMap({
-                  changed: this._changed[frame.fn_name].variables[name]?.value,
+                  changed: this.changed[frame.fn_name]?.variables[name]?.value,
                 })}
                 ${animate({
                   properties: ["background"],
@@ -171,12 +100,7 @@ export class RustExecutionVisualizer extends LitElement {
 
   render() {
     return html`
-      <div
-        class=${classMap({
-          column: true,
-          "display-changed": this.displayChanged,
-        })}
-      >
+      <div class="column">
         ${repeat(
           this.frames,
           (frame) => frame.fn_name,
@@ -225,14 +149,24 @@ export class RustExecutionVisualizer extends LitElement {
       display: block;
     }
 
-    .display-changed .changed {
+    .red-highlight .changed {
       background: rgba(255, 0, 0, 0.5);
     }
-    .display-changed .changed-table td {
+    .red-highlight.changed-table td {
       background: rgba(255, 0, 0, 0.5);
     }
-    .display-changed .changed-table caption span {
+    .red-highlight.changed-table caption span {
       background: rgba(255, 0, 0, 0.5);
+    }
+
+    .yellow-highlight .changed {
+      background: yellow;
+    }
+    .yellow-highlight.changed-table td {
+      background: yellow;
+    }
+    .yellow-highlight.changed-table caption span {
+      background: yellow;
     }
   `;
 }

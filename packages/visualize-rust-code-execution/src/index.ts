@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { sha256 } from "js-sha256";
 
 import { Frame, Step, Variables } from "./types.js";
+import { computeChanged } from "./utils.js";
 
 export default function visualizeRustCodeExecutionPlugin() {
   return {
@@ -89,10 +90,30 @@ async function codeExecutionVisualization(rustCode: string): Promise<string> {
     const step = steps[i];
 
     if (!step) return ``;
+
+    const changed = i > 0 ? computeChanged(steps[i - 1], steps[i]) : {};
+    const newFrame = Object.entries(changed).find(
+      ([_, frame]) => frame.newFrame
+    );
+
+    //   <script-fragment>
+    //     <script data-on-show type="text/template">
+    //       document.querySelector("#${id}").changed = JSON.parse('${JSON.stringify(
+    //   changed
+    // )}');
+    //       document.querySelector("#${id}").highlightType = 'yellow-box';
+    //     </script>
+    //     <script data-on-hide type="text/template">
+    //       deck.prevFragment();
+    //     </script>
+    //   </script-fragment>
     return `
       <script-fragment>
         <script data-on-show type="text/template">
-          document.querySelector("#${id}").displayChanged = true;
+          document.querySelector("#${id}").changed = JSON.parse('${JSON.stringify(
+      changed
+    )}');
+          document.querySelector("#${id}").highlightType = 'red-background';
           document.querySelector("#${id}").frames = JSON.parse('${JSON.stringify(
       step
     ).replaceAll("\\", "\\\\")}');
@@ -102,7 +123,7 @@ async function codeExecutionVisualization(rustCode: string): Promise<string> {
     }em';
         </script>
         <script data-on-hide type="text/template">
-          document.querySelector("#${id}").displayChanged = false;
+          document.querySelector("#${id}").changed = {};
       ${
         i === 0
           ? `

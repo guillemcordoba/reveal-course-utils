@@ -6,6 +6,7 @@ body {
   background-color: #ededed;
   --r-main-font-size: 24px;
   --r-heading-margin: 20px 0 12px 0;
+  --r-block-margin: 4px;
 }
 
 svg * {
@@ -15,7 +16,7 @@ svg * {
 
 pre code {
   font-size: 1.25em !important;
-  line-height: 1em;
+  line-height: 1.2em;
   padding: 20px;
 }
 
@@ -95,26 +96,6 @@ simple-popover ul {
 }
 .coordinator-zomes {
   background-color: lightblue;
-}
-
-.dna,
-.cell,
-.zome,
-.coordinator-zomes,
-.source-chain,
-.happ-bundle,
-.box,
-.dna-bundle,
-.dht-shard,
-.conductor,
-.happ {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px;
-  border-width: 3px;
-  border-color: rgb(209, 209, 209);
-  border-style: solid;
 }
 
 .reveal .slides section .fragment.strike.visible {

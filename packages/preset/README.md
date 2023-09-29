@@ -17,7 +17,7 @@ import { defineConfig } from "vite";
 import { vitePlugins } from "@mythosthesia/reveal-course-preset/vite-plugins.js";
 
 export default defineConfig({
-  base: 'rust-lesson-1',
+  base: '/rust-lesson-1',
   plugins: vitePlugins,
 });
 ```

@@ -80,8 +80,25 @@
           <!-- todo: consolidate this example and the parameter type inference into one visual -->
           <pre><code class="rust" data-trim data-noescape animate="by-line balanced with-ancestry separate-comments trailing-comments-in-popover strike-on-error-in-comment"
 >
+use hdk::prelude::*;
+
+#[hdk_extern]
+fn zome_function_a(input: String) -&gt; ExternResult&lt;ActionHash&gt; { // We want to grant a capability 
+                                                                // to execute this function
+}
+let if_result: u32 = if n &lt; 2 { // Can have a result value
+  // This is a two
+  2
+} else {
+  3
+}; // Notice the semi-colon
+let greeting: &amp;str = "hello world!"; // Type annotation for string literal is always "&amp;str"
+                                     // since you can only ever have a reference to string literal
+// This is a two
 fn rec(i: u32) {
-  if i &gt; 0 {
+  let v: Vec&lt;String&gt; = Vec::new();
+  if i &lt; 0 { // A comment
+             // in two lines
     rec(i-1);
   }
 }
@@ -91,8 +108,9 @@ fn sample() {
 
   let heavy_weight = 100;
   
-  let is_heavy_closure = |weight: u32| { // A closure resembles a function, 
-                                         // but with "||" rather than "()" around the parameters
+  let is_heavy_closure = |weight: u32| { // # A closure resembles a function, 
+                                         //  - but with "||" rather than "()" around the parameters
+                                         //  - but with "||" rather than "()" around the parameters
     weight > heavy_weight  // Closures capture variables from their containing scope
   };
   
@@ -111,22 +129,13 @@ fn sample() {
   return is_heavy_closure; // Error: can't be sent to another context
                            // ahaa
 }
-
 println!("{}", is_heavy_closure(99)); // Closures are invoked like functions
                                       // prints false
-
 asdfasdf;         // Error, what?
                   // asdf
-let greeting: &str = "hello world!"; // Type annotation for string literal is always "&str"
-                                     // since you can only ever have a reference to string literal
 
-// This is a two
-let if_result: u32 = if n &lt; 2 { // Can have a result value
-  // This is a two
-  2
-} else {
-  3
-}; // Notice the semi-colon
+
+
 
 // hii
 let user_age: f32 = 1.0; 
@@ -145,7 +154,6 @@ user_age = 4.0; // Error, immutable by default
 
 let mut mutable_age = 5; // Set as mutable
 mutable_age = 6; // Works
-
 </code></pre>
         </section>
         <!-- prettier-ignore -->
@@ -155,6 +163,8 @@ mutable_age = 6; // Works
           * Union of several 
             * asdf 
               * jjs 
+          ```rust
+          ```
           
         </section>
       </div>
@@ -173,10 +183,7 @@ mutable_age = 6; // Works
         transition: "none",
         highlight: {
           beforeHighlight: (hljs) => {
-            hljs.configure({
-              ignoreUnescapedHTML: true,
-              noHighlightRe: /nohi/gm,
-            });
+            hljs.configure({});
           },
         },
       });

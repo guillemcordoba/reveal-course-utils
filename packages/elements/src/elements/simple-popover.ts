@@ -12,14 +12,17 @@ export class SimplePopover extends LitElement {
       position: absolute;
       background-color: #4d4d4d;
       padding: 1rem;
-      padding-bottom: 0;
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
       border-radius: 10px;
       width: auto;
       transform: translate(16px, -15px);
       max-width: 600px;
-      white-space: break-spaces;
-      display: inline-block;
+      display: inline-flex;
+      flex-direction: column;
+      text-align: left;
+      text-wrap: wrap;
+      margin: auto;
+      min-width: 150px;
     }
     :host:after {
       content: "";

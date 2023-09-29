@@ -94,9 +94,12 @@ graph TD;
         <section>
           <h3>Declaration of Variables</h3>
 
+          <!-- prettier-ignore -->
           <fragment>
             <pre><code class="rust" data-visualize-execution data-trim data-noescape animate="by-line with-ancestry balanced separate-comments trailing-comments-in-popover strike-on-error-in-comment">
+let v: Vec&lt;String&gt; = Vec::new();
 let user_age: f32 = 1.0; // Declare with "let", in snake case
+let a = &user_age;
 
 let user_age: f32 = 2.0; // Redeclaration
 

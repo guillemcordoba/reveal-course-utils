@@ -1,6 +1,6 @@
 {
   "name": "@mythosthesia/reveal-course-preset",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "",
   "author": "guillem.cordoba@gmail.com",
   "main": "dist/index.js",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@mythosthesia/visualize-rust-code-execution": "^0.1.0",
-    "@mythosthesia/reveal-course-elements": "^0.1.1",
+    "@mythosthesia/reveal-course-elements": "^0.1.2",
     "reveal.js": "=4.3.1",
     "reveal.js-animate-fragments": "^0.1.0",
     "reveal.js-mermaid-plugin": "^2.0.0",

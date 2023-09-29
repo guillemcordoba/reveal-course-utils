@@ -121,10 +121,7 @@ export default () => ({
     const animateElements = document.querySelectorAll("[animate]");
 
     for (const animateElement of animateElements) {
-      let html = animateElement.innerHTML
-        .replace(/&amp;/gm, "&")
-        .replace(/&lt;/gm, "<")
-        .replace(/&gt;/gm, ">");
+      let html = animateElement.innerHTML;
       if (nodeHasAnimateValue(animateElement, "strike-on-error-in-comment")) {
         html = html.replaceAll(
           /^(\s*)(.*?)(\s*)\/\/ Error/gm,
@@ -136,8 +133,7 @@ export default () => ({
           /^(.*){([^}:])/gm,
           '<span class="fragment fade-in">$1{$2'
         );
-        html = html.replaceAll(/([^{?])}(.*)$/gm, "$1}$2</span>");
-        console.log(html);
+        html = html.replaceAll(/([^{?])}(.*?)(\/\/.*)?$/gm, "$1}$2</span>$3");
       }
       if (nodeHasAnimateValue(animateElement, "by-line")) {
         if (nodeHasLanguageValue(animateElement, "markdown")) {
@@ -221,7 +217,6 @@ export default () => ({
 
         for (const result of Array.from(searchResults).reverse()) {
           let s = result[0];
-
           // If this line contains just a `<span class="fragment fade-in"> // Some comment</span>`, this is a false alarm, skip
           if (!!s.match(/^<[^>]*?>\s*?\/\/[^<]*?<\/[^>]*?>$/gm)) {
             continue;
@@ -233,7 +228,6 @@ export default () => ({
           let firstLine = split[0];
 
           let commentFirstLine = removeFragmentSpan(firstLine);
-
           let commentIndex = commentFirstLine.split("//")[0].length;
 
           const regex = new RegExp(`^\ {${commentIndex}}\/\/`);
@@ -309,5 +303,8 @@ function removeFragmentSpan(html) {
   );
   html = html.replaceAll(/<script-fragment[^>]*?>.*?<\/script-fragment>/gm, "");
   html = html.replaceAll(/<\/span>/gm, "");
-  return html;
+  return html
+    .replaceAll(/&amp;/gm, "&")
+    .replaceAll(/&lt;/gm, "<")
+    .replaceAll(/&gt;/gm, ">");
 }

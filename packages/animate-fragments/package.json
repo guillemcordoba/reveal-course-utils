@@ -3,7 +3,7 @@
   "description": "reveal.js plugin to automatically animate code and markdown",
   "license": "MIT",
   "author": "guillem.cordoba@gmail.com",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "main": "src/index.js",
   "module": "src/index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   "dependencies": {
     "@mythosthesia/reveal-course-elements": "^0.1.0",
     "marked": "^4.0.18",
-    "reveal.js": "=4.3.0"
+    "reveal.js": "=4.3.1"
   },
   "devDependencies": {
     "vite": "^4.2.0",

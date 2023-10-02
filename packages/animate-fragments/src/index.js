@@ -159,8 +159,8 @@ export default () => ({
               const line = removeFragmentSpan(lines[i]);
               if (
                 !line.match(/^.*?{$/gm) &&
-                !line.match(/^.*?{[^}:].*$/gm) &&
-                !line.match(/^.*?[^?{]}.*$/gm) &&
+                !line.match(/^.*?{[^}]*?$/gm) &&
+                !line.match(/^[^{]*?}.*$/gm) &&
                 !line.match(/^}.*$/gm) &&
                 !line.match(/^\s*$/gm)
               ) {

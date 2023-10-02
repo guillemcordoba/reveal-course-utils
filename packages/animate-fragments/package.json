@@ -3,7 +3,7 @@
   "description": "reveal.js plugin to automatically animate code and markdown",
   "license": "MIT",
   "author": "guillem.cordoba@gmail.com",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "src/index.js",
   "module": "src/index.js",
   "scripts": {

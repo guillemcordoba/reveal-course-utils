@@ -84,9 +84,18 @@ use hdk::prelude::*;
 #[hdk_extern]
 pub fn validate(op: Op) -> ExternResult&lt;ValidateCallbackResult&gt; {
   match op.flattened::&lt;EntryTypes, LinkTypes&gt;()? {
-      OpEntry::CreateEntry { .. } => match app_entry {
+    FlatOp::StoreEntry(store_entry) => match store_entry {
+      OpEntry::CreateEntry { app_entry, action } => match app_entry {
         EntryTypes::Post(post) => Ok(ValidateCallbackResult::Valid), // All posts are valid
       },
+      _ => Ok(ValidateCallbackResult::Valid),
+    },
+    FlatOp::RegisterUpdate(update_entry) |
+    FlatOp::RegisterDelete(delete_entry) |
+    FlatOp::RegisterCreateLink { .. } | 
+    FlatOp::RegisterDeleteLink { .. } |
+    FlatOp::StoreRecord(store_record) |
+    FlatOp::RegisterAgentActivity(agent_activity) => Ok(ValidateCallbackResult::Valid)
   }
 }
 

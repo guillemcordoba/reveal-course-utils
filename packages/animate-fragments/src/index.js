@@ -130,10 +130,10 @@ export default () => ({
       }
       if (nodeHasAnimateValue(animateElement, "balanced")) {
         html = html.replaceAll(
-          /^(.*){([^}:])/gm,
+          /^(.*){([^}]*?)$/gm,
           '<span class="fragment fade-in">$1{$2'
         );
-        html = html.replaceAll(/([^{?])}(.*?)(\/\/.*)?$/gm, "$1}$2</span>$3");
+        html = html.replaceAll(/^([^{]*?)}(.*?)(\/\/.*)?$/gm, "$1}$2</span>$3");
       }
       if (nodeHasAnimateValue(animateElement, "by-line")) {
         if (nodeHasLanguageValue(animateElement, "markdown")) {

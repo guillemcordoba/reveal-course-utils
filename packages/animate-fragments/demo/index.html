@@ -81,6 +81,25 @@
           <pre><code class="rust" data-trim data-noescape animate="by-line balanced with-ancestry separate-comments trailing-comments-in-popover strike-on-error-in-comment"
 >
 use hdk::prelude::*;
+#[hdk_extern]
+pub fn validate(op: Op) -> ExternResult&lt;ValidateCallbackResult&gt; {
+  match op.flattened::&lt;EntryTypes, LinkTypes&gt;()? {
+      OpEntry::CreateEntry { .. } => match app_entry {
+        EntryTypes::Post(post) => Ok(ValidateCallbackResult::Valid), // All posts are valid
+      },
+  }
+}
+
+#[hdk_extern]
+fn query_my_full_chain(_: ()) -> ExternResult&lt;Vec&lt;Record&gt;&gt; { 
+  let filter = ChainQueryFilter::new(); // We'll see more options
+
+  let my_full_chain: Vec&lt;Record&gt; = query(filter)?; // - Does not do any network call
+                                                         // - Records are returned in ascendent
+                                                         // order (from oldest to newest)
+
+  Ok(my_full_chain)
+}
 
 #[hdk_extern]
 fn zome_function_a(input: String) -&gt; ExternResult&lt;ActionHash&gt; { // We want to grant a capability 
